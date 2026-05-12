@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InfoBox } from "../components/ui/InfoBox.jsx";
 import { PageIntro } from "../components/ui/PageIntro.jsx";
 import { formatRpFull, formatDate } from "../utils/formatters.js";
@@ -15,11 +15,13 @@ export function RoasCalculatorPage({ auth, calculators }) {
   const [result, setResult] = useState(null);
   const [history, setHistory] = useState([]);
 
-  useState(() => {
+  useEffect(() => {
     if (auth.user && calculators) {
       calculators.listRoas().then(setHistory);
+    } else {
+      setHistory([]);
     }
-  }, [auth.user]);
+  }, [auth.user, calculators]);
 
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });

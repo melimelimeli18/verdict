@@ -1,0 +1,930 @@
+      <div class="overview">
+        <div class="overview-grid">
+          <div class="stat-card">
+            <span class="stat-number" id="done-count">0</span>
+            <div class="stat-label">Selesai</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="total-count">0</span>
+            <div class="stat-label">Total</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="phase-done">0</span>
+            <div class="stat-label">Fase Done</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="pct-count">0%</span>
+            <div class="stat-label">Progress</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quote-banner" style="margin-top: 16px">
+        <div class="quote-eyebrow">✦ INGAT SELALU</div>
+        <div class="quote-text">
+          "Seller sukses bukan yang paling pintar — tapi yang paling konsisten
+          ngerjain hal-hal kecil ini setiap hari."
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="celebration" id="celebration">
+          <h2>🎉 Kamu udah siap jualan!</h2>
+          <p>
+            Semua langkah selesai. Sekarang kunci suksesnya satu:
+            <strong>konsistensi</strong>. Upload produk baru minimal 3x
+            seminggu, rajin balas chat, dan evaluasi setiap minggu. Orderan
+            pertama tinggal nunggu waktu!
+          </p>
+        </div>
+
+        <!-- FASE 1 -->
+        <div class="phase" id="phase-wrap-1">
+          <div class="phase-header">
+            <div class="phase-num">1</div>
+            <div class="phase-info">
+              <div class="phase-title">Riset & Persiapan</div>
+              <div class="phase-sub">Sebelum buka toko — ini wajib dulu</div>
+            </div>
+            <div class="phase-badge" id="badge-1">✓ Done</div>
+          </div>
+          <div class="checklist" id="phase-1">
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Tentukan niche / kategori produk yang spesifik
+                </div>
+                <div class="check-desc">
+                  Jangan jual semua hal. Toko yang fokus 1 kategori konversinya
+                  2x lebih tinggi dari toko serba ada. Pilih niche yang kamu
+                  suka ATAU yang pasarnya jelas.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Riset kompetitor — analisis 5 toko laris
+                </div>
+                <div class="check-desc">
+                  Cek harga, foto, deskripsi, ulasan. Cari tahu kenapa mereka
+                  laris. 70% seller gagal karena skip tahap ini dan langsung
+                  jualan tanpa tahu lanskap pasar.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">Hitung HPP & margin keuntungan</div>
+                <div class="check-desc">
+                  Harga jual min = modal + ongkir + fee platform (Shopee ~4–6%,
+                  TikTok Shop ~2–5%) + profit. Tanpa ini, kamu bisa rugi tanpa
+                  sadar.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Tentukan & verifikasi supplier / sumber produk
+                </div>
+                <div class="check-desc">
+                  Pesan sampel dulu sebelum stok banyak. Cek kualitas,
+                  packaging, dan kecepatan pengiriman supplier. Supplier yang
+                  lambat = rating toko kamu turun.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Riset keyword produk di Shopee / TikTok
+                </div>
+                <div class="check-desc">
+                  Ketik keyword di search bar dan lihat autocomplete — itu
+                  keyword yang banyak dicari orang. Simpan list keyword utama
+                  untuk judul produk nanti.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FASE 2 -->
+        <div class="phase" id="phase-wrap-2">
+          <div class="phase-header">
+            <div class="phase-num">2</div>
+            <div class="phase-info">
+              <div class="phase-title">Setup Toko</div>
+              <div class="phase-sub">
+                Bikin kesan pertama yang nggak bisa dilupain
+              </div>
+            </div>
+            <div class="phase-badge" id="badge-2">✓ Done</div>
+          </div>
+          <div class="checklist" id="phase-2">
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Buat akun dengan email bisnis terpisah
+                </div>
+                <div class="check-desc">
+                  Email bisnis = lebih profesional dan mudah dikelola tim kalau
+                  suatu saat kamu hire orang. Jangan campur dengan email
+                  pribadi.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Pilih nama toko yang mudah diingat & relevan
+                </div>
+                <div class="check-desc">
+                  Simpel, relevan dengan produk, hindari angka/simbol random.
+                  Nama toko = brand pertama kamu. Susah diubah setelah banyak
+                  pelanggan.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Upload foto profil & banner toko yang menarik
+                </div>
+                <div class="check-desc">
+                  Toko dengan foto profil punya conversion trust 40% lebih
+                  tinggi. Bisa pakai logo simpel, Canva, atau foto produk
+                  unggulan yang bersih.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Isi semua info toko — lokasi, jam, deskripsi
+                </div>
+                <div class="check-desc">
+                  Profil toko yang lengkap ningkatin kepercayaan pembeli. Buyer
+                  sering cek ini sebelum checkout, terutama untuk order pertama.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Aktifkan minimal 3 ekspedisi pengiriman
+                </div>
+                <div class="check-desc">
+                  JNE, J&T, Sicepat minimal. Makin banyak pilihan ongkir, makin
+                  gampang pembeli dari berbagai daerah checkout. Aktifkan COD
+                  kalau memungkinkan.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Setting auto-reply chat & template respons
+                </div>
+                <div class="check-desc">
+                  Response rate 95%+ bikin toko kamu muncul lebih tinggi di
+                  search. Set auto-reply untuk jam istirahat dan malam hari
+                  supaya tetap responsif.
+                </div>
+                <span class="check-tag tag-tips">Tips</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FASE 3 -->
+        <div class="phase" id="phase-wrap-3">
+          <div class="phase-header">
+            <div class="phase-num">3</div>
+            <div class="phase-info">
+              <div class="phase-title">Upload Produk</div>
+              <div class="phase-sub">Ini yang bikin orang mau klik & beli</div>
+            </div>
+            <div class="phase-badge" id="badge-3">✓ Done</div>
+          </div>
+          <div class="checklist" id="phase-3">
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Foto produk minimal 5 angle — background putih + lifestyle
+                </div>
+                <div class="check-desc">
+                  Foto bagus bisa tingkatkan CTR 3–5x. Gunakan background putih
+                  untuk foto utama (standar Shopee), tambahkan 1–2 foto
+                  lifestyle supaya pembeli bisa bayangin produk dipakai.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Tulis judul produk dengan keyword yang tepat
+                </div>
+                <div class="check-desc">
+                  Format: [Keyword Utama] + [Spesifikasi] + [Keunggulan]. Max
+                  120 karakter. Contoh: "Tas Kanvas Wanita Aesthetic Tote Bag
+                  Besar A4 Kuliah Kerja Sekolah".
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Deskripsi produk yang lengkap & jujur
+                </div>
+                <div class="check-desc">
+                  Isi: ukuran, bahan, warna, cara perawatan, cara pemesanan
+                  varian. Pembeli yang info-nya lengkap: jarang complain, jarang
+                  retur, lebih sering kasih bintang 5.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Set harga kompetitif dengan margin yang sehat
+                </div>
+                <div class="check-desc">
+                  Untuk toko baru: boleh sedikit di bawah kompetitor untuk dapat
+                  ulasan pertama. Tapi jangan under-price — kamu bisa naikkan
+                  harga pelan-pelan setelah punya review.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Isi variasi produk (ukuran, warna, dll)
+                </div>
+                <div class="check-desc">
+                  Produk dengan variasi lengkap dapat lebih banyak traffic
+                  karena muncul di lebih banyak filter pencarian. Jangan bikin
+                  listing terpisah untuk tiap varian.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Upload minimal 10–15 produk sebelum promosi
+                </div>
+                <div class="check-desc">
+                  Toko dengan banyak produk terlihat lebih serius & punya lebih
+                  banyak entry point untuk ditemukan pembeli lewat search
+                  organik.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Tambahkan video produk singkat (15–30 detik)
+                </div>
+                <div class="check-desc">
+                  Listing dengan video dapat 80% lebih banyak tayangan di
+                  Shopee. Cukup video simpel: unboxing, detail produk, atau cara
+                  pakai. Nggak perlu cinematic.
+                </div>
+                <span class="check-tag tag-tips">Tips</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FASE 4 -->
+        <div class="phase" id="phase-wrap-4">
+          <div class="phase-header">
+            <div class="phase-num">4</div>
+            <div class="phase-info">
+              <div class="phase-title">Promosi & Ulasan Pertama</div>
+              <div class="phase-sub">Biar ada yang tau & percaya toko kamu</div>
+            </div>
+            <div class="phase-badge" id="badge-4">✓ Done</div>
+          </div>
+          <div class="checklist" id="phase-4">
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Share produk ke sosmed & WAG terdekat
+                </div>
+                <div class="check-desc">
+                  Pembeli pertama hampir selalu dari circle sendiri. Jangan malu
+                  share — mereka juga bisa kasih ulasan awal yang sangat
+                  berharga untuk trust toko baru.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Aktifkan voucher toko / gratis ongkir
+                </div>
+                <div class="check-desc">
+                  Gratis ongkir adalah faktor #1 yang mempengaruhi keputusan
+                  beli di Shopee (data internal Shopee 2023). Ikut program
+                  gratis ongkir Shopee dulu sebelum iklan berbayar.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Balas semua chat dalam 1 jam — target response rate 95%+
+                </div>
+                <div class="check-desc">
+                  Response Rate tinggi = peringkat toko lebih tinggi di search
+                  Shopee. Set notifikasi, pasang auto-reply malam hari, dan
+                  usahain balas di hari yang sama.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Packaging rapi + sisipkan kartu ucapan / thank you note
+                </div>
+                <div class="check-desc">
+                  Packaging yang rapi & personal bikin pembeli lebih mau kasih
+                  ulasan bintang 5 dan kembali lagi. Ini investasi kecil yang
+                  returnnya besar banget.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">Kejar 10 ulasan bintang 5 pertama</div>
+                <div class="check-desc">
+                  Toko dengan 10+ ulasan bintang 5 punya conversion rate 70%
+                  lebih tinggi dari toko tanpa ulasan. Boleh follow-up pembeli
+                  lewat chat dengan sopan untuk minta review.
+                </div>
+                <span class="check-tag tag-wajib">Wajib</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Coba 1 konten TikTok / Reels produk per minggu
+                </div>
+                <div class="check-desc">
+                  TikTok dan Reels bisa kasih eksposur ribuan orang tanpa biaya
+                  iklan. Mulai dari: unboxing, review jujur, atau
+                  behind-the-scenes cara kamu packing produk.
+                </div>
+                <span class="check-tag tag-tips">Tips</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FASE 5 -->
+        <div class="phase" id="phase-wrap-5">
+          <div class="phase-header">
+            <div class="phase-num">5</div>
+            <div class="phase-info">
+              <div class="phase-title">Evaluasi & Optimasi Rutin</div>
+              <div class="phase-sub">Yang konsisten evaluasi, yang maju</div>
+            </div>
+            <div class="phase-badge" id="badge-5">✓ Done</div>
+          </div>
+          <div class="checklist" id="phase-5">
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Cek Shopee Seller Insight tiap minggu
+                </div>
+                <div class="check-desc">
+                  Lihat: produk mana yang banyak dilihat tapi jarang dibeli
+                  (masalah foto/harga), produk mana yang langsung laku. Data ini
+                  jauh lebih jujur dari feeling kamu.
+                </div>
+                <span class="check-tag tag-penting">Penting</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  A/B test foto & judul produk terlaris
+                </div>
+                <div class="check-desc">
+                  Ganti foto thumbnail atau judul produk terlaris, pantau CTR
+                  selama 1 minggu. Kalau naik, pertahankan. Kalau turun,
+                  kembalikan. Lakukan terus sampai optimal.
+                </div>
+                <span class="check-tag tag-tips">Tips</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Ikut Flash Sale Shopee / TikTok Shop
+                </div>
+                <div class="check-desc">
+                  Flash Sale adalah cara dapat eksposur gratis paling efektif
+                  untuk toko baru. Daftarkan 1–2 produk unggulan dengan diskon
+                  minimal 20% untuk lolos kurasi.
+                </div>
+                <span class="check-tag tag-bonus">Bonus</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Mulai iklan Shopee Ads / TikTok Ads dengan budget kecil
+                </div>
+                <div class="check-desc">
+                  Mulai setelah punya minimal 10 ulasan dan CTR organik bagus.
+                  Budget Rp 20–50rb/hari cukup untuk test. Evaluasi ROAS-nya
+                  setelah 7 hari. Lihat tab Iklan untuk panduan lengkap.
+                </div>
+                <span class="check-tag tag-tips">Tips</span>
+              </div>
+            </div>
+            <div class="check-item" onclick="toggle(this)">
+              <div class="checkbox"><span class="check-icon">✓</span></div>
+              <div class="check-body">
+                <div class="check-title">
+                  Buat SOP packing & pengiriman yang konsisten
+                </div>
+                <div class="check-desc">
+                  Buat checklist packing sendiri supaya kualitas packaging
+                  selalu sama meski orderan sedang banyak. Konsistensi = bintang
+                  5 yang konsisten.
+                </div>
+                <span class="check-tag tag-bonus">Bonus</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="reset-btn" onclick="resetAll()">
+          ↺ Reset semua checklist
+        </button>
+
+        <!-- ===== ROADMAP SECTION (inside checklist) ===== -->
+        <div style="margin-top: 36px">
+          <div
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: 20px;
+              color: var(--brown);
+              margin-bottom: 4px;
+            ">
+            Roadmap 5 Tahun
+          </div>
+          <div
+            style="
+              font-size: 12px;
+              color: var(--muted);
+              margin-bottom: 16px;
+              line-height: 1.6;
+            ">
+            Ini bukan jaminan — tapi ini peta yang bisa kamu ikuti. Setiap
+            keputusan ada di waktu yang tepat.
+          </div>
+
+          <div class="info-box">
+            <div class="info-box-title">📌 Cara baca roadmap ini</div>
+            <p>
+              Setiap fase punya <strong>target realistis</strong> berdasarkan
+              rata-rata seller aktif di Indonesia, bukan yang viral di TikTok.
+              Kalau kamu lebih cepat — bagus. Kalau lebih lambat — tetap jalan,
+              yang penting konsisten.
+            </p>
+          </div>
+
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-card">
+                <div class="tl-card-header">
+                  <div class="tl-emoji">🌱</div>
+                  <div>
+                    <div class="tl-year">0 – 6 Bulan</div>
+                    <div class="tl-phase-name">Fase Belajar & Pondasi</div>
+                  </div>
+                  <div class="revenue-tag">Rp 0–5jt/bln</div>
+                </div>
+                <div class="tl-body">
+                  <div class="tl-goal">
+                    Di sini tujuannya bukan untung besar — tapi belajar cara
+                    kerjanya marketplace dan bangun fondasi yang kuat.
+                  </div>
+                  <div class="tl-targets">
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Setup toko & upload 15–30 produk pertama
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Kejar 10–25 ulasan bintang 5
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Test iklan kecil-kecilan (Rp 20–50rb/hari)
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Identifikasi 2–3 produk yang paling laku
+                    </div>
+                  </div>
+                  <div class="tl-decision">
+                    <div class="tl-decision-label">✦ KEPUTUSAN FASE INI</div>
+                    <div class="tl-decision-text">
+                      Fokus penuh ke 1 platform dulu — Shopee ATAU TikTok Shop.
+                      Belajar lebih dalam lebih penting dari ekspansi cepat.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-card">
+                <div class="tl-card-header">
+                  <div class="tl-emoji">📈</div>
+                  <div>
+                    <div class="tl-year">6 – 12 Bulan</div>
+                    <div class="tl-phase-name">
+                      Fase Optimasi & Mulai Profit
+                    </div>
+                  </div>
+                  <div class="revenue-tag">Rp 3–15jt/bln</div>
+                </div>
+                <div class="tl-body">
+                  <div class="tl-goal">
+                    Sekarang mulai kelihatan mana yang works. Tugasnya: double
+                    down pada yang berhasil dan buang yang tidak.
+                  </div>
+                  <div class="tl-targets">
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Scale iklan produk dengan ROAS ≥ 3x
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Optimasi 5 produk terlaris (foto, deskripsi, harga)
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Mulai catat keuangan bisnis secara terpisah
+                    </div>
+                  </div>
+                  <div class="tl-decision">
+                    <div class="tl-decision-label">✦ KEPUTUSAN FASE INI</div>
+                    <div class="tl-decision-text">
+                      Putuskan: <strong>reseller</strong> (margin tipis, volume
+                      besar) atau
+                      <strong>produk sendiri / branding</strong> (margin lebih
+                      tebal, butuh lebih banyak effort).
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-card">
+                <div class="tl-card-header">
+                  <div class="tl-emoji">🚀</div>
+                  <div>
+                    <div class="tl-year">Tahun 1 – 2</div>
+                    <div class="tl-phase-name">Fase Ekspansi & Sistem</div>
+                  </div>
+                  <div class="revenue-tag">Rp 15–50jt/bln</div>
+                </div>
+                <div class="tl-body">
+                  <div class="tl-goal">
+                    Bisnis sudah tidak bisa dijalankan sendiri tanpa kelelahan.
+                    Saatnya mulai bangun sistem dan tim kecil.
+                  </div>
+                  <div class="tl-targets">
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Hire asisten packing / admin pertama
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Ekspansi ke platform kedua
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Pisahkan rekening bisnis & pribadi (wajib!)
+                    </div>
+                  </div>
+                  <div class="tl-decision">
+                    <div class="tl-decision-label">✦ KEPUTUSAN FASE INI</div>
+                    <div class="tl-decision-text">
+                      Pertimbangkan daftar sebagai
+                      <strong>PT atau CV</strong> kalau omzet sudah di atas Rp
+                      20–30jt/bulan.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-card">
+                <div class="tl-card-header">
+                  <div class="tl-emoji">🏪</div>
+                  <div>
+                    <div class="tl-year">Tahun 2 – 3</div>
+                    <div class="tl-phase-name">Fase Brand & Loyalitas</div>
+                  </div>
+                  <div class="revenue-tag">Rp 50–150jt/bln</div>
+                </div>
+                <div class="tl-body">
+                  <div class="tl-goal">
+                    Kamu sedang membangun brand. Pembeli beli karena percaya ke
+                    kamu, bukan cuma karena harga paling murah.
+                  </div>
+                  <div class="tl-targets">
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Bangun identitas brand yang kuat (logo, packaging, tone)
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Program loyalitas & repeat buyer
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Produk private label atau formulasi sendiri
+                    </div>
+                  </div>
+                  <div class="tl-decision">
+                    <div class="tl-decision-label">✦ KEPUTUSAN FASE INI</div>
+                    <div class="tl-decision-text">
+                      Scale terus di online, atau mulai explore channel offline?
+                      Pilih berdasarkan produk dan margin kamu, bukan tren.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-card">
+                <div class="tl-card-header">
+                  <div class="tl-emoji">👑</div>
+                  <div>
+                    <div class="tl-year">Tahun 3 – 5</div>
+                    <div class="tl-phase-name">
+                      Fase Scale & Impak Lebih Besar
+                    </div>
+                  </div>
+                  <div class="revenue-tag">Rp 150jt+/bln</div>
+                </div>
+                <div class="tl-body">
+                  <div class="tl-goal">
+                    Kamu sudah punya data, tim, dan sistem. Sekarang waktunya
+                    berpikir lebih besar.
+                  </div>
+                  <div class="tl-targets">
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Ekspansi ke marketplace internasional
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Buka program reseller / dropship jaringan sendiri
+                    </div>
+                    <div class="tl-target">
+                      <div class="tl-target-icon">→</div>
+                      Hire manajer yang bisa replace kamu di operasional
+                    </div>
+                  </div>
+                  <div class="tl-decision">
+                    <div class="tl-decision-label">✦ KEPUTUSAN FASE INI</div>
+                    <div class="tl-decision-text">
+                      Apakah bisnis ini bisa <strong>jalan tanpa kamu</strong>?
+                      Kalau belum — itu PR terbesar kamu di fase ini.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="highlight-box" style="margin-top: 20px">
+            <div class="hb-title">Satu hal yang bikin semua ini possible</div>
+            <div class="hb-body">
+              Rata-rata seller yang berhasil melewati 6 bulan pertama dengan
+              konsisten, 80% dari mereka masih aktif dan profitable di tahun
+              ke-2. Yang berhenti di tengah jalan, 95% menyesal karena biasanya
+              berhenti tepat sebelum traction mulai terasa.
+            </div>
+            <div class="hb-pills">
+              <span class="hb-pill">Konsistensi > Intensitas</span>
+              <span class="hb-pill">Data > Feeling</span>
+              <span class="hb-pill">Sistem > Semangat</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== Q&A SECTION (inside checklist) ===== -->
+        <div style="margin-top: 36px">
+          <div
+            style="
+              font-family: &quot;Playfair Display&quot;, serif;
+              font-size: 20px;
+              color: var(--brown);
+              margin-bottom: 4px;
+            ">
+            Pertanyaan yang Sering Muncul
+          </div>
+          <div
+            style="
+              font-size: 12px;
+              color: var(--muted);
+              margin-bottom: 16px;
+              line-height: 1.6;
+            ">
+            Jawaban berdasarkan data dan pengalaman nyata — bukan teori.
+          </div>
+
+          <div class="qna-item" onclick="toggleQNA(this)">
+            <div class="qna-question">
+              <div class="q-icon">Q</div>
+              <div class="q-text">
+                Shopee atau TikTok Shop — mana yang lebih bagus untuk mulai?
+              </div>
+              <div class="q-arrow">▾</div>
+            </div>
+            <div class="qna-answer">
+              <p>
+                <strong>Keduanya bagus, tapi untuk tujuan berbeda.</strong>
+                Shopee lebih cocok untuk produk yang orang sudah aktif
+                mencarinya. TikTok Shop lebih cocok untuk produk yang "wow
+                factor"-nya tinggi dan bisa ditunjukkan lewat video.
+              </p>
+              <div class="answer-data">
+                📊 Data 2024: Conversion rate Shopee ~3–5%, TikTok Shop ~1–3%
+                tapi average order value lebih tinggi karena impulse buy.
+              </div>
+              <p>
+                Saran: <strong>mulai dari Shopee</strong> dulu kalau kamu belum
+                biasa bikin konten video.
+              </p>
+            </div>
+          </div>
+          <div class="qna-item" onclick="toggleQNA(this)">
+            <div class="qna-question">
+              <div class="q-icon">Q</div>
+              <div class="q-text">
+                Berapa modal minimal untuk mulai jualan online?
+              </div>
+              <div class="q-arrow">▾</div>
+            </div>
+            <div class="qna-answer">
+              <div class="answer-data">
+                <strong>Dropship:</strong> Rp 0–500rb<br /><strong
+                  >Reseller stok sendiri:</strong
+                >
+                Rp 500rb–5jt<br /><strong>Produk sendiri:</strong> Rp 2–20jt<br /><strong
+                  >Budget iklan awal:</strong
+                >
+                minimal Rp 500rb–1jt
+              </div>
+              <p>
+                Mulai dengan modal sekecil mungkin untuk validasi dulu. Baru
+                tambah modal kalau sudah ada traction.
+              </p>
+            </div>
+          </div>
+          <div class="qna-item" onclick="toggleQNA(this)">
+            <div class="qna-question">
+              <div class="q-icon">Q</div>
+              <div class="q-text">
+                Kenapa toko sudah buka tapi sepi orderan?
+              </div>
+              <div class="q-arrow">▾</div>
+            </div>
+            <div class="qna-answer">
+              <p>
+                Ini normal untuk 1–3 bulan pertama. Kalau sudah 3+ bulan,
+                biasanya ada salah satu dari ini:
+              </p>
+              <div class="answer-data">
+                1️⃣ <strong>Foto kurang menarik</strong> — CTR rendah<br />2️⃣
+                <strong>Harga tidak kompetitif</strong><br />3️⃣
+                <strong>Tidak ada ulasan</strong><br />4️⃣
+                <strong>Keyword salah</strong> di judul produk<br />5️⃣
+                <strong>Niche terlalu sempit atau terlalu kompetitif</strong>
+              </div>
+            </div>
+          </div>
+          <div class="qna-item" onclick="toggleQNA(this)">
+            <div class="qna-question">
+              <div class="q-icon">Q</div>
+              <div class="q-text">
+                Kapan waktu yang tepat untuk mulai iklan berbayar?
+              </div>
+              <div class="q-arrow">▾</div>
+            </div>
+            <div class="qna-answer">
+              <div class="answer-data">
+                ✅ Minimal <strong>10 ulasan bintang 4–5</strong><br />✅ CTR
+                organik sudah <strong>> 1.5%</strong><br />✅ Paham cara baca
+                <strong>ROAS, CTR, CVR, CPC</strong>
+              </div>
+              <p>Kalau 3 kondisi itu belum terpenuhi, iklan cuma buang uang.</p>
+            </div>
+          </div>
+          <div class="qna-item" onclick="toggleQNA(this)">
+            <div class="qna-question">
+              <div class="q-icon">Q</div>
+              <div class="q-text">Dropship atau stok sendiri?</div>
+              <div class="q-arrow">▾</div>
+            </div>
+            <div class="qna-answer">
+              <div class="answer-data">
+                <strong>Dropship:</strong> modal kecil, margin tipis 5–15%,
+                kontrol kualitas minim<br /><br /><strong>Stok sendiri:</strong>
+                margin 30–60%, kontrol kualitas, butuh modal & tempat
+              </div>
+              <p>
+                Mulai dropship untuk validasi, baru stok sendiri kalau sudah ada
+                produk yang konsisten laku.
+              </p>
+            </div>
+          </div>
+          <div class="qna-item" onclick="toggleQNA(this)">
+            <div class="qna-question">
+              <div class="q-icon">Q</div>
+              <div class="q-text">
+                Berapa lama sampai bisa profit konsisten?
+              </div>
+              <div class="q-arrow">▾</div>
+            </div>
+            <div class="qna-answer">
+              <div class="answer-data">
+                📊 Bulan 1–3: Sepi. Normal. Fase belajar.<br />Bulan 3–6: Mulai
+                dapat orderan konsisten<br />Bulan 6–12: Mulai ada profit
+                kecil<br />Tahun 1–2: Baru bisa dibilang "toko yang berjalan"
+              </div>
+              <p>
+                <strong>Yang pasti:</strong> kalau berhenti di bulan ke-2,
+                jawabannya tidak pernah profit. Konsisten sampai bulan ke-12,
+                hampir pasti sudah ada hasilnya.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>

@@ -1,9 +1,9 @@
+/** Primary nav matches reference HTML: Dashboard, Iklan, Keuangan, Stok, Panduan, Produk */
 export const navItems = [
   { id: "dashboard", label: "Dashboard" },
-  { id: "checklist", label: "Checklist" },
+  { id: "iklan", label: "Iklan" },
   { id: "keuangan", label: "Keuangan" },
-  { id: "hpp", label: "HPP" },
-  { id: "roas", label: "ROAS" },
-  { id: "roadmap", label: "Roadmap" },
-  { id: "faq", label: "FAQ" },
+  { id: "stok", label: "Stok" },
+  { id: "checklist", label: "Panduan" },
+  { id: "produk", label: "Produk" },
 ];

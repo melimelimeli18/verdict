@@ -21,16 +21,7 @@ export function LoginPage({ auth }) {
   return (
     <section className="content page">
       <div className="login-hero">
-        <div
-          className="logo"
-          style={{ justifyContent: "center", fontSize: 28 }}>
-          <span
-            className="logo-mark"
-            style={{ height: 36, width: 40, fontSize: 13 }}>
-            CA
-          </span>
-          <span>Catalyst</span>
-        </div>
+        <div className="logo login-logo">Verdict</div>
         <h1
           className="section-title"
           style={{ textAlign: "center", marginTop: 16 }}>

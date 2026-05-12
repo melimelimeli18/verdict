@@ -1,0 +1,914 @@
+      <div class="keu-section">
+        <div class="section-title">Pencatatan Keuangan Bisnis</div>
+        <div class="section-desc">
+          Catat setiap pemasukan & pengeluaran bisnis kamu. Data ini yang akan
+          kasih tahu apakah bisnis kamu sehat — bukan feeling kamu.
+        </div>
+
+        <div class="keu-summary" id="keu-summary">
+          <div class="keu-stat">
+            <div class="keu-stat-label">Total Masuk</div>
+            <div class="keu-stat-val green" id="keu-total-masuk">Rp 0</div>
+          </div>
+          <div class="keu-stat">
+            <div class="keu-stat-label">Total Keluar</div>
+            <div class="keu-stat-val red" id="keu-total-keluar">Rp 0</div>
+          </div>
+          <div class="keu-stat full">
+            <div class="keu-stat-label">Profit Bersih Bulan Ini</div>
+            <div class="keu-stat-val" id="keu-profit">Rp 0</div>
+          </div>
+        </div>
+
+        <div class="keu-chart" id="keu-chart" style="display: none">
+          <div class="keu-chart-title">📊 Distribusi Bulan Ini</div>
+          <div class="bar-row">
+            <div class="bar-label-row">
+              <span>Pemasukan</span>
+              <span id="bar-masuk-label">Rp 0</span>
+            </div>
+            <div class="bar-track">
+              <div
+                class="bar-fill bar-masuk"
+                id="bar-masuk"
+                style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label-row">
+              <span>Pengeluaran</span>
+              <span id="bar-keluar-label">Rp 0</span>
+            </div>
+            <div class="bar-track">
+              <div
+                class="bar-fill bar-keluar"
+                id="bar-keluar"
+                style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="health-bar" id="keu-health" style="display: none">
+          <div class="health-title">🩺 Kesehatan Bisnis Kamu</div>
+          <div class="health-row">
+            <div class="health-label-row">
+              <span class="health-label">Profit Margin</span>
+              <span class="health-value" id="h-margin-val">—</span>
+            </div>
+            <div class="health-track">
+              <div
+                class="health-fill"
+                id="h-margin-bar"
+                style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="health-row">
+            <div class="health-label-row">
+              <span class="health-label">Rasio Pengeluaran Iklan</span>
+              <span class="health-value" id="h-iklan-val">—</span>
+            </div>
+            <div class="health-track">
+              <div class="health-fill" id="h-iklan-bar" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="health-row">
+            <div class="health-label-row">
+              <span class="health-label">Rasio Operasional</span>
+              <span class="health-value" id="h-ops-val">—</span>
+            </div>
+            <div class="health-track">
+              <div class="health-fill" id="h-ops-bar" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="keu-form">
+          <div class="keu-form-header">+ Catat Transaksi</div>
+          <div class="keu-form-body">
+            <div class="keu-type-btn">
+              <button
+                class="type-btn active-masuk"
+                id="btn-masuk"
+                onclick="setType('masuk')">
+                💚 Pemasukan
+              </button>
+              <button
+                class="type-btn"
+                id="btn-keluar"
+                onclick="setType('keluar')">
+                🔴 Pengeluaran
+              </button>
+            </div>
+            <div class="keu-row">
+              <select class="keu-select" id="keu-kategori">
+                <option value="">Pilih Kategori...</option>
+              </select>
+            </div>
+            <div class="keu-row">
+              <input
+                class="keu-input wide"
+                type="text"
+                id="keu-note"
+                placeholder="Keterangan singkat..." />
+            </div>
+            <div class="keu-row">
+              <input
+                class="keu-input"
+                type="number"
+                id="keu-amount"
+                placeholder="Nominal (Rp)" />
+              <input class="keu-input" type="date" id="keu-date" />
+            </div>
+            <button class="keu-add-btn" onclick="addEntry()">
+              + Tambah Catatan
+            </button>
+          </div>
+        </div>
+
+        <div class="keu-list">
+          <div class="keu-list-header">
+            <div class="keu-list-title">Riwayat Transaksi</div>
+            <div class="keu-filter">
+              <button
+                class="keu-filter-btn active"
+                onclick="filterEntries('semua', this)">
+                Semua
+              </button>
+              <button
+                class="keu-filter-btn"
+                onclick="filterEntries('masuk', this)">
+                Masuk
+              </button>
+              <button
+                class="keu-filter-btn"
+                onclick="filterEntries('keluar', this)">
+                Keluar
+              </button>
+            </div>
+          </div>
+          <div id="keu-entries">
+            <div class="keu-empty">
+              Belum ada catatan.<br />Mulai catat transaksi pertama bisnis kamu
+              👆
+            </div>
+          </div>
+        </div>
+
+        <button class="keu-reset-btn" onclick="resetKeuangan()">
+          ↺ Hapus semua catatan
+        </button>
+
+        <!-- ===== REKAP MINGGUAN AI ===== -->
+        <div style="margin-top: 20px">
+          <div
+            style="
+              background: linear-gradient(135deg, var(--dark), var(--brown));
+              border-radius: 14px;
+              padding: 18px 16px;
+            ">
+            <div
+              style="
+                font-family: &quot;Playfair Display&quot;, serif;
+                font-size: 15px;
+                color: var(--gold);
+                margin-bottom: 6px;
+              ">
+              Rekap & Saran Mingguan
+            </div>
+            <div
+              style="
+                font-size: 12px;
+                color: rgba(245, 239, 230, 0.7);
+                line-height: 1.6;
+                margin-bottom: 14px;
+              ">
+              AI akan analisis semua transaksi kamu dan kasih saran spesifik —
+              uang habis karena apa, dan minggu depan harus ngapain.
+            </div>
+            <button
+              onclick="generateRekap()"
+              id="rekap-btn"
+              style="
+                width: 100%;
+                padding: 13px;
+                background: #c4783a;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                font-size: 13px;
+                font-weight: 700;
+                font-family: &quot;DM Sans&quot;, sans-serif;
+                cursor: pointer;
+                transition: background 0.2s;
+                letter-spacing: 0.2px;
+              ">
+              Rekap Minggu Ini
+            </button>
+          </div>
+
+          <!-- HASIL REKAP -->
+          <div id="rekap-result" style="display: none; margin-top: 12px">
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                overflow: hidden;
+              ">
+              <div
+                style="
+                  background: var(--cream);
+                  padding: 12px 16px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  border-bottom: 1px solid var(--border);
+                ">
+                <div
+                  style="
+                    font-family: &quot;Playfair Display&quot;, serif;
+                    font-size: 14px;
+                    color: var(--brown);
+                  ">
+                  Hasil Analisis
+                </div>
+                <div
+                  style="font-size: 10px; color: var(--muted)"
+                  id="rekap-timestamp"></div>
+              </div>
+              <div
+                id="rekap-content"
+                style="
+                  padding: 16px;
+                  font-size: 13px;
+                  color: var(--text);
+                  line-height: 1.8;
+                "></div>
+            </div>
+          </div>
+          <style>
+            @keyframes dot {
+              0%,
+              80%,
+              100% {
+                opacity: 0.2;
+                transform: scale(0.8);
+              }
+              40% {
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+          </style>
+        </div>
+
+        <div class="section-divider" style="margin-top: 28px"></div>
+
+        <div
+          style="
+            font-family: &quot;Playfair Display&quot;, serif;
+            font-size: 18px;
+            color: var(--brown);
+            margin-bottom: 4px;
+            margin-top: 8px;
+          ">
+          🧮 Kalkulator HPP Produk
+        </div>
+        <div class="section-desc">
+          HPP bukan cuma harga beli produk. Banyak seller diam-diam rugi karena
+          skip komponen ini. Isi semua yang relevan.
+        </div>
+
+        <div class="calc-box" style="margin-bottom: 0">
+          <div style="display: flex; gap: 6px; margin-bottom: 14px">
+            <button
+              class="type-btn active-masuk"
+              id="hpp-tab-reseller"
+              onclick="hppSetTab('reseller')"
+              style="font-size: 11px; padding: 8px">
+              🛒 Reseller
+            </button>
+            <button
+              class="type-btn"
+              id="hpp-tab-produksi"
+              onclick="hppSetTab('produksi')"
+              style="font-size: 11px; padding: 8px">
+              🏭 Produksi Sendiri
+            </button>
+          </div>
+
+          <div id="hpp-reseller">
+            <div class="calc-row">
+              <div class="calc-label">Harga beli produk</div>
+              <input
+                class="calc-input"
+                type="number"
+                id="hpp-beli"
+                placeholder="cth: 40000"
+                oninput="calcHPP()" />
+            </div>
+            <div class="calc-row">
+              <div class="calc-label">Ongkir dari supplier</div>
+              <input
+                class="calc-input"
+                type="number"
+                id="hpp-ongkir-sup"
+                placeholder="cth: 5000"
+                oninput="calcHPP()" />
+            </div>
+          </div>
+
+          <div id="hpp-produksi" style="display: none">
+            <div class="calc-row">
+              <div class="calc-label">Biaya bahan baku</div>
+              <input
+                class="calc-input"
+                type="number"
+                id="hpp-bahan"
+                placeholder="cth: 25000"
+                oninput="calcHPP()" />
+            </div>
+            <div class="calc-row">
+              <div class="calc-label">Biaya tenaga kerja</div>
+              <input
+                class="calc-input"
+                type="number"
+                id="hpp-tenaga"
+                placeholder="cth: 10000"
+                oninput="calcHPP()" />
+            </div>
+            <div class="calc-row">
+              <div class="calc-label">Biaya overhead/listrik</div>
+              <input
+                class="calc-input"
+                type="number"
+                id="hpp-overhead"
+                placeholder="cth: 3000"
+                oninput="calcHPP()" />
+            </div>
+          </div>
+
+          <div
+            style="
+              height: 1px;
+              background: var(--border);
+              margin: 12px 0;
+            "></div>
+          <div
+            style="
+              font-size: 11px;
+              color: var(--muted);
+              font-weight: 600;
+              margin-bottom: 10px;
+              letter-spacing: 0.3px;
+            ">
+            BIAYA TAMBAHAN PER ITEM
+          </div>
+
+          <div class="calc-row">
+            <div class="calc-label">Packaging (box/plastik)</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="hpp-pack"
+              placeholder="cth: 2000"
+              oninput="calcHPP()" />
+          </div>
+          <div class="calc-row">
+            <div class="calc-label">Bubble wrap / lakban</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="hpp-bubble"
+              placeholder="cth: 1000"
+              oninput="calcHPP()" />
+          </div>
+          <div class="calc-row">
+            <div class="calc-label">Harga jual produk</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="hpp-jual"
+              placeholder="cth: 85000"
+              oninput="calcHPP()" />
+          </div>
+          <div class="calc-row">
+            <div class="calc-label">Fee platform (%)</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="hpp-fee-pct"
+              placeholder="cth: 5"
+              oninput="calcHPP()" />
+          </div>
+          <div class="calc-row">
+            <div class="calc-label">Subsidi ongkir</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="hpp-ongkir-sub"
+              placeholder="cth: 8000"
+              oninput="calcHPP()" />
+          </div>
+
+          <div
+            style="
+              background: var(--cream);
+              border-radius: 10px;
+              padding: 12px 13px;
+              margin-bottom: 2px;
+            ">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+              ">
+              <div
+                style="font-size: 12px; font-weight: 600; color: var(--brown)">
+                Biaya iklan per item
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px">
+                <span style="font-size: 10px; color: var(--muted)"
+                  >Hitung otomatis</span
+                >
+                <div
+                  onclick="toggleIklanMode()"
+                  id="iklan-toggle"
+                  style="
+                    width: 36px;
+                    height: 20px;
+                    background: rgba(100, 60, 30, 0.15);
+                    border-radius: 10px;
+                    position: relative;
+                    cursor: pointer;
+                    transition: background 0.25s;
+                    flex-shrink: 0;
+                  ">
+                  <div
+                    id="iklan-toggle-dot"
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      background: white;
+                      border-radius: 50%;
+                      position: absolute;
+                      top: 3px;
+                      left: 3px;
+                      transition: left 0.25s;
+                      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+                    "></div>
+                </div>
+              </div>
+            </div>
+            <div id="iklan-manual">
+              <div style="display: flex; align-items: center; gap: 8px">
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--muted);
+                    width: 100px;
+                    flex-shrink: 0;
+                  ">
+                  Nominal (Rp)
+                </div>
+                <input
+                  class="calc-input"
+                  type="number"
+                  id="hpp-iklan"
+                  placeholder="cth: 3000"
+                  oninput="calcHPP()"
+                  style="flex: 1" />
+              </div>
+              <div
+                style="
+                  font-size: 10.5px;
+                  color: var(--muted);
+                  margin-top: 8px;
+                  line-height: 1.5;
+                ">
+                Lihat di <strong>Shopee Seller Centre → Iklanku</strong> → Total
+                Biaya ÷ Jumlah Pesanan
+              </div>
+            </div>
+            <div id="iklan-auto" style="display: none">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  margin-bottom: 8px;
+                ">
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--muted);
+                    width: 100px;
+                    flex-shrink: 0;
+                  ">
+                  Budget/hari (Rp)
+                </div>
+                <input
+                  class="calc-input"
+                  type="number"
+                  id="hpp-budget-hari"
+                  placeholder="cth: 30000"
+                  oninput="calcIklanAuto()"
+                  style="flex: 1" />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  margin-bottom: 10px;
+                ">
+                <div
+                  style="
+                    font-size: 11px;
+                    color: var(--muted);
+                    width: 100px;
+                    flex-shrink: 0;
+                  ">
+                  Target order/hari
+                </div>
+                <input
+                  class="calc-input"
+                  type="number"
+                  id="hpp-target-order"
+                  placeholder="cth: 5"
+                  oninput="calcIklanAuto()"
+                  style="flex: 1" />
+              </div>
+              <div
+                id="iklan-auto-result"
+                style="
+                  display: none;
+                  background: white;
+                  border-radius: 8px;
+                  padding: 10px 12px;
+                ">
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  ">
+                  <div>
+                    <div
+                      style="
+                        font-size: 10px;
+                        color: var(--muted);
+                        font-weight: 600;
+                        letter-spacing: 0.3px;
+                      ">
+                      ESTIMASI BIAYA IKLAN PER ITEM
+                    </div>
+                    <div
+                      style="
+                        font-family: &quot;Playfair Display&quot;, serif;
+                        font-size: 20px;
+                        color: var(--accent);
+                        margin-top: 2px;
+                      "
+                      id="iklan-auto-val">
+                      Rp 0
+                    </div>
+                  </div>
+                  <button
+                    onclick="pakaiBiayaIklan()"
+                    style="
+                      background: var(--accent);
+                      color: white;
+                      border: none;
+                      border-radius: 8px;
+                      padding: 8px 12px;
+                      font-size: 11px;
+                      font-weight: 600;
+                      font-family: &quot;DM Sans&quot;, sans-serif;
+                      cursor: pointer;
+                      white-space: nowrap;
+                    ">
+                    Pakai angka ini →
+                  </button>
+                </div>
+                <div
+                  style="
+                    font-size: 10.5px;
+                    color: var(--muted);
+                    margin-top: 8px;
+                    line-height: 1.5;
+                  "
+                  id="iklan-auto-note"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="hpp-result" style="display: none; margin-top: 14px">
+            <div
+              style="
+                background: var(--dark);
+                border-radius: 12px;
+                padding: 16px;
+                margin-bottom: 10px;
+              ">
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 10px;
+                  margin-bottom: 12px;
+                ">
+                <div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: rgba(232, 185, 122, 0.5);
+                      font-weight: 700;
+                      letter-spacing: 0.8px;
+                      margin-bottom: 4px;
+                    ">
+                    HPP TOTAL
+                  </div>
+                  <div
+                    style="
+                      font-family: &quot;Playfair Display&quot;, serif;
+                      font-size: 22px;
+                      color: var(--gold);
+                    "
+                    id="hpp-total-val">
+                    Rp 0
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: rgba(232, 185, 122, 0.5);
+                      font-weight: 700;
+                      letter-spacing: 0.8px;
+                      margin-bottom: 4px;
+                    ">
+                    PROFIT BERSIH
+                  </div>
+                  <div
+                    style="
+                      font-family: &quot;Playfair Display&quot;, serif;
+                      font-size: 22px;
+                    "
+                    id="hpp-profit-val">
+                    Rp 0
+                  </div>
+                </div>
+              </div>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 10px;
+                ">
+                <div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: rgba(232, 185, 122, 0.5);
+                      font-weight: 700;
+                      letter-spacing: 0.8px;
+                      margin-bottom: 4px;
+                    ">
+                    MARGIN
+                  </div>
+                  <div
+                    style="
+                      font-family: &quot;Playfair Display&quot;, serif;
+                      font-size: 22px;
+                    "
+                    id="hpp-margin-val">
+                    0%
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style="
+                      font-size: 9px;
+                      color: rgba(232, 185, 122, 0.5);
+                      font-weight: 700;
+                      letter-spacing: 0.8px;
+                      margin-bottom: 4px;
+                    ">
+                    HARGA MIN AMAN
+                  </div>
+                  <div
+                    style="
+                      font-family: &quot;Playfair Display&quot;, serif;
+                      font-size: 22px;
+                      color: var(--gold);
+                    "
+                    id="hpp-min-val">
+                    Rp 0
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                overflow: hidden;
+              ">
+              <div
+                style="
+                  padding: 12px 14px;
+                  background: var(--cream);
+                  font-size: 11px;
+                  font-weight: 700;
+                  color: var(--brown);
+                  letter-spacing: 0.3px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                ">
+                <span>RINCIAN HPP PER KOMPONEN</span>
+                <span
+                  id="hpp-breakdown-total-label"
+                  style="
+                    font-family: &quot;Playfair Display&quot;, serif;
+                    font-size: 13px;
+                    color: var(--accent);
+                  "></span>
+              </div>
+              <div
+                id="hpp-breakdown"
+                style="
+                  padding: 14px 14px;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+                "></div>
+            </div>
+            <div
+              style="
+                margin-top: 10px;
+                padding: 12px 14px;
+                border-radius: 10px;
+                font-size: 12px;
+                font-weight: 500;
+                line-height: 1.6;
+              "
+              id="hpp-verdict-box"></div>
+          </div>
+        </div>
+
+        <div class="section-divider" style="margin-top: 28px"></div>
+
+        <div
+          style="
+            font-family: &quot;Playfair Display&quot;, serif;
+            font-size: 18px;
+            color: var(--brown);
+            margin-bottom: 4px;
+            margin-top: 8px;
+          ">
+          Saran Keuangan Bisnis
+        </div>
+        <div class="section-desc">
+          Hal-hal ini yang bikin bisnis online tetap sehat secara finansial —
+          bahkan kalau omzetnya masih kecil.
+        </div>
+
+        <div class="saran-list">
+          <div class="saran-card">
+            <div class="saran-icon si-red">🔑</div>
+            <div class="saran-body">
+              <div class="saran-title">
+                Pisahkan rekening bisnis & pribadi — sekarang juga
+              </div>
+              <div class="saran-desc">
+                Ini #1 kesalahan seller baru. Kalau uang bisnis dan pribadi
+                campur, kamu tidak akan pernah tahu bisnis kamu untung atau
+                rugi. Buka rekening baru khusus bisnis — gratis di hampir semua
+                bank digital.
+              </div>
+              <span class="saran-tag st-wajib">Wajib Segera</span>
+            </div>
+          </div>
+          <div class="saran-card">
+            <div class="saran-icon si-green">📊</div>
+            <div class="saran-body">
+              <div class="saran-title">
+                Hitung HPP dengan benar — bukan cuma modal produk
+              </div>
+              <div class="saran-desc">
+                HPP termasuk: ongkir ke kamu, packaging, fee platform (4–6%),
+                ongkir ke pembeli (kalau gratis ongkir), dan proporsi biaya
+                iklan per item. Banyak yang merasa untung padahal HPP-nya lebih
+                besar dari harga jual.
+              </div>
+              <span class="saran-tag st-wajib">Wajib</span>
+            </div>
+          </div>
+          <div class="saran-card">
+            <div class="saran-icon si-yellow">💰</div>
+            <div class="saran-body">
+              <div class="saran-title">
+                Terapkan aturan 50/30/20 untuk profit bisnis
+              </div>
+              <div class="saran-desc">
+                Dari setiap profit bersih:
+                <strong>50% untuk modal barang</strong>,
+                <strong>30% untuk operasional & iklan</strong>, dan
+                <strong>20% untuk tabungan bisnis</strong>. Jangan ambil semua
+                profit untuk konsumsi pribadi di awal.
+              </div>
+              <span class="saran-tag st-penting">Penting</span>
+            </div>
+          </div>
+          <div class="saran-card">
+            <div class="saran-icon si-blue">📅</div>
+            <div class="saran-body">
+              <div class="saran-title">Rekap keuangan minimal 1x seminggu</div>
+              <div class="saran-desc">
+                Jangan tunggu akhir bulan. Rekap mingguan bikin kamu tahu lebih
+                cepat kalau ada yang aneh — misalnya pengeluaran iklan tiba-tiba
+                naik tapi penjualan stagnan.
+              </div>
+              <span class="saran-tag st-penting">Penting</span>
+            </div>
+          </div>
+          <div class="saran-card">
+            <div class="saran-icon si-purple">🎯</div>
+            <div class="saran-body">
+              <div class="saran-title">Target profit margin minimal 20–30%</div>
+              <div class="saran-desc">
+                Kalau margin kamu di bawah 15% setelah semua biaya, bisnis kamu
+                rentan. Satu kenaikan harga supplier atau lonjakan biaya iklan
+                bisa langsung bikin rugi.
+              </div>
+              <span class="saran-tag st-tips">Target</span>
+            </div>
+          </div>
+          <div class="saran-card">
+            <div class="saran-icon si-green">🚨</div>
+            <div class="saran-body">
+              <div class="saran-title">
+                Bangun dana darurat bisnis minimal 2 bulan operasional
+              </div>
+              <div class="saran-desc">
+                Marketplace bisa tiba-tiba suspend akun, supplier bisa out of
+                stock, atau ada momen sepi orderan mendadak. Dana darurat bisnis
+                = jaring pengaman yang sering diabaikan seller baru.
+              </div>
+              <span class="saran-tag st-penting">Penting</span>
+            </div>
+          </div>
+          <div class="saran-card">
+            <div class="saran-icon si-yellow">📈</div>
+            <div class="saran-body">
+              <div class="saran-title">
+                Jangan reinvestasi 100% — bayar diri sendiri
+              </div>
+              <div class="saran-desc">
+                Semua profit diputar balik ke bisnis sampai lupa bayar diri
+                sendiri. Tetapkan "gaji" kecil dari bisnis — misalnya 10% dari
+                profit — supaya kamu tidak burnout.
+              </div>
+              <span class="saran-tag st-tips">Tips</span>
+            </div>
+          </div>
+          <div class="saran-card">
+            <div class="saran-icon si-blue">🧾</div>
+            <div class="saran-body">
+              <div class="saran-title">
+                Simpan semua bukti transaksi — foto atau scan
+              </div>
+              <div class="saran-desc">
+                Nota supplier, bukti transfer, screenshot penjualan — simpan
+                semuanya di folder Google Drive terpisah per bulan. Penting
+                kalau ada sengketa atau nanti urus legalitas bisnis.
+              </div>
+              <span class="saran-tag st-tips">Tips</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          <div class="hb-title">
+            🔍 Tanda bisnis kamu sudah "sehat" secara finansial
+          </div>
+          <div class="hb-body">
+            Profit margin ≥ 20% setelah semua biaya. Punya dana darurat 2 bulan.
+            Rekening bisnis terpisah. Bisa bayar diri sendiri setiap bulan tanpa
+            harus ambil modal. Kalau semua ini sudah terpenuhi — kamu bukan lagi
+            sekedar jualan, kamu sudah punya bisnis yang beneran.
+          </div>
+          <div class="hb-pills">
+            <span class="hb-pill">Margin ≥ 20%</span>
+            <span class="hb-pill">Rekening terpisah</span>
+            <span class="hb-pill">Dana darurat 2 bln</span>
+            <span class="hb-pill">Catat setiap transaksi</span>
+          </div>
+        </div>
+
+      </div>

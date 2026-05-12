@@ -1,123 +1,105 @@
-import { useEffect, useMemo, useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase.js";
-import { checklistPhases } from "../data/checklist.js";
 
-export function useChecklist(enabled = true) {
-  const [completedIds, setCompletedIds] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+const LOCAL_KEY = "verdict_checklist_v1";
 
-  async function loadProgress() {
-    if (!enabled) {
-      setCompletedIds([]);
-      return;
-    }
+function getLocal() {
+  try {
+    const raw = localStorage.getItem(LOCAL_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
 
-    setLoading(true);
-    setError("");
-    try {
-      const { data, error: fetchError } = await supabase
-        .from("checklist_progress")
-        .select("completed_item_ids")
-        .single();
+function saveLocal(data) {
+  localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+}
 
-      if (fetchError && fetchError.code !== "PGRST116") {
-        // PGRST116 = no rows, which is fine for new users
-        throw fetchError;
+export function useChecklist(auth) {
+  const queryClient = useQueryClient();
+  const session = auth?.session;
+
+  const { data: items = [] } = useQuery({
+    queryKey: ["checklist-items"],
+    queryFn: async () => {
+      if (session) {
+        const supabase = await supabase();
+        const { data: items, error } = await supabase
+          .from("checklist_items")
+          .select("*");
+        if (error) throw error;
+        return items.map((item) => item.item_id);
       }
+      const local = getLocal();
+      return local.completed || [];
+    },
+  });
 
-      setCompletedIds(data?.completed_item_ids ?? []);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const toggleMutation = useMutation({
+    mutationFn: async (itemId) => {
+      const isCompleted = items.includes(itemId);
+      if (session) {
+        const supabase = await supabase();
+        if (isCompleted) {
+          const { error: deleteError } = await supabase
+            .from("checklist_items")
+            .delete()
+            .eq("item_id", itemId);
+          if (deleteError) throw deleteError;
+        } else {
+          const { error: insertError } = await supabase
+            .from("checklist_items")
+            .insert({ item_id: itemId });
+          if (insertError) throw insertError;
+        }
+      } else {
+        const local = getLocal();
+        const completed = local.completed || [];
+        if (isCompleted) {
+          local.completed = completed.filter((id) => id !== itemId);
+        } else {
+          local.completed = [...completed, itemId];
+        }
+        saveLocal(local);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["checklist-items"] });
+    },
+  });
 
-  async function persist(nextIds) {
-    if (!enabled) return;
+  const toggle = (itemId) => toggleMutation.mutate(itemId);
 
-    const previousIds = completedIds;
-    setCompletedIds(nextIds);
-    setError("");
-    try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+  const resetAllMutation = useMutation({
+    mutationFn: async () => {
+      if (session) {
+        const supabase = await supabase();
+        const { error } = await supabase
+          .from("checklist_items")
+          .delete()
+          .neq("item_id", "_never_");
+        if (error) throw error;
+      } else {
+        saveLocal({ completed: [] });
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["checklist-items"] });
+    },
+  });
 
-      const { error: upsertError } = await supabase
-        .from("checklist_progress")
-        .upsert(
-          {
-            user_id: user.id,
-            completed_item_ids: nextIds,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "user_id" },
-        );
+  const resetAll = () => {
+    return resetAllMutation.mutateAsync();
+  };
 
-      if (upsertError) throw upsertError;
-    } catch (err) {
-      setCompletedIds(previousIds);
-      setError(err.message);
-    }
-  }
-
-  function toggleItem(itemId) {
-    if (!enabled) return;
-
-    const nextIds = completedIds.includes(itemId)
-      ? completedIds.filter((id) => id !== itemId)
-      : [...completedIds, itemId];
-    persist(nextIds);
-  }
-
-  async function reset() {
-    if (!enabled) return;
-
-    const previousIds = completedIds;
-    setCompletedIds([]);
-    setError("");
-    try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
-
-      const { error: deleteError } = await supabase
-        .from("checklist_progress")
-        .delete()
-        .eq("user_id", user.id);
-
-      if (deleteError) throw deleteError;
-    } catch (err) {
-      setCompletedIds(previousIds);
-      setError(err.message);
-    }
-  }
-
-  useEffect(() => {
-    loadProgress();
-  }, [enabled]);
-
-  const progress = useMemo(() => {
-    const total = checklistPhases.reduce(
-      (sum, phase) => sum + phase.items.length,
-      0,
-    );
-    const done = completedIds.length;
-    const percent = total ? Math.round((done / total) * 100) : 0;
-    return { total, done, percent };
-  }, [completedIds]);
+  const isDone = (itemId) => items.includes(itemId);
 
   return {
-    phases: checklistPhases,
-    completedIds,
-    progress,
-    loading,
-    error,
-    toggleItem,
-    reset,
+    items,
+    toggle,
+    isDone,
+    resetAll,
+    isLoading: false,
   };
 }

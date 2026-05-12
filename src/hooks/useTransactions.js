@@ -66,7 +66,7 @@ export function useTransactions(enabled = true) {
           category: payload.category,
           note: payload.note,
           amount: Number(payload.amount),
-          transaction_date: payload.transactionDate,
+          transaction_date: payload.transaction_date,
         })
         .select()
         .single();
@@ -126,6 +126,8 @@ export function useTransactions(enabled = true) {
       .reduce((sum, t) => sum + Number(t.amount), 0);
 
     return {
+      totalIncome: income,
+      totalExpense: expense,
       income,
       expense,
       profit,
@@ -136,11 +138,15 @@ export function useTransactions(enabled = true) {
   }, [transactions]);
 
   return {
+    list: transactions,
     transactions,
     summary,
     loading,
+    saving: loading,
     error,
+    add: addTransaction,
     addTransaction,
+    remove: deleteTransaction,
     deleteTransaction,
     reload: loadTransactions,
   };

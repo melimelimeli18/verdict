@@ -1,0 +1,347 @@
+/* ===== KEUANGAN PAGE ===== */
+.keu-section {
+  padding: 20px 24px 48px;
+}
+.keu-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.keu-stat {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 14px;
+  text-align: center;
+}
+.keu-stat.full {
+  grid-column: 1 / -1;
+}
+.keu-stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+.keu-stat-val {
+  font-family:
+    'Playfair Display',
+    serif;
+  font-size: 22px;
+  color: var(--brown);
+}
+.keu-stat-val.green {
+  color: #1a6b4a;
+}
+.keu-stat-val.red {
+  color: #b85c1a;
+}
+
+/* FORM INPUT */
+.keu-form {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.keu-form-header {
+  background: #160c05;
+  padding: 12px 16px;
+  font-family:
+    'Playfair Display',
+    serif;
+  font-size: 14px;
+  color: var(--gold);
+}
+.keu-form-body {
+  padding: 14px 16px;
+}
+.keu-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+.keu-row:last-child {
+  margin-bottom: 0;
+}
+.keu-select,
+.keu-input {
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: 12.5px;
+  font-family:
+    'DM Sans',
+    sans-serif;
+  color: var(--text);
+  background: #faf7f3;
+  outline: none;
+  transition: border 0.2s;
+}
+.keu-select:focus,
+.keu-input:focus {
+  border-color: var(--accent);
+}
+.keu-select {
+  flex: 1.2;
+}
+.keu-input {
+  flex: 1;
+}
+.keu-input.wide {
+  flex: 2;
+}
+.keu-type-btn {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.keu-add-btn {
+  width: 100%;
+  padding: 11px;
+  background: #c4783a;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family:
+    'DM Sans',
+    sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+.keu-add-btn:hover {
+  background: #5c2d10;
+}
+
+/* TRANSACTION LIST */
+.keu-list {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.keu-list-header {
+  padding: 12px 16px;
+  background: #f5efe6;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.keu-list-title {
+  font-family:
+    'Playfair Display',
+    serif;
+  font-size: 14px;
+  color: var(--brown);
+}
+
+
+/* CHART BAR */
+.keu-chart {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.keu-chart-title {
+  font-family:
+    'Playfair Display',
+    serif;
+  font-size: 14px;
+  color: var(--brown);
+  margin-bottom: 14px;
+}
+.bar-row {
+  margin-bottom: 10px;
+}
+.bar-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.bar-track {
+  height: 8px;
+  background: rgba(100, 60, 30, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bar-masuk {
+  background: linear-gradient(90deg, #2d8a5e, #40c07a);
+}
+.bar-keluar {
+  background: linear-gradient(90deg, #c4783a, #e8b97a);
+}
+
+/* SARAN CARD */
+.saran-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.saran-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 15px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.saran-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.si-green {
+  background: #d4f1e4;
+}
+.si-yellow {
+  background: #fdf3d8;
+}
+.si-red {
+  background: #fde8d8;
+}
+.si-blue {
+  background: #e8f4fd;
+}
+.si-purple {
+  background: #f0e8fd;
+}
+.saran-body {
+  flex: 1;
+}
+.saran-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.saran-desc {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.saran-tag {
+  display: inline-block;
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  margin-top: 5px;
+  letter-spacing: 0.3px;
+}
+.st-wajib {
+  background: #fde8d8;
+  color: #b85c1a;
+}
+.st-tips {
+  background: #e8f4fd;
+  color: #1a6bb8;
+}
+.st-penting {
+  background: #fdf3d8;
+  color: #b88a1a;
+}
+
+/* KESEHATAN BISNIS */
+.health-bar {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+.health-title {
+  font-family:
+    'Playfair Display',
+    serif;
+  font-size: 14px;
+  color: var(--brown);
+  margin-bottom: 14px;
+}
+.health-row {
+  margin-bottom: 12px;
+}
+.health-row:last-child {
+  margin-bottom: 0;
+}
+.health-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  margin-bottom: 5px;
+}
+.health-label {
+  color: var(--text);
+  font-weight: 500;
+}
+.health-value {
+  color: var(--muted);
+  font-weight: 600;
+}
+.health-track {
+  height: 7px;
+  background: rgba(100, 60, 30, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.health-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hf-green {
+  background: linear-gradient(90deg, #1a6b4a, #40c07a);
+}
+.hf-yellow {
+  background: linear-gradient(90deg, #b88a1a, #e8c840);
+}
+.hf-red {
+  background: linear-gradient(90deg, #b85c1a, #e8783a);
+}
+
+.keu-reset-btn {
+  width: 100%;
+  padding: 11px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-family:
+    'DM Sans',
+    sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+.keu-reset-btn:hover {
+  background: #f5efe6;
+  color: #b85c1a;
+}

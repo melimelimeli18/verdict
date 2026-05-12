@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
+
 export function Header({ activePage, auth, navItems, onNavigate }) {
   return (
     <header>
       <div className="header-inner">
-        <div className="logo">
-          <span className="logo-mark">CA</span>
-          <span>Catalyst</span>
-        </div>
+        <Link className="logo" to="/">
+          Verdict
+        </Link>
         <nav className="nav-tabs" aria-label="Navigasi utama">
           {navItems.map((item) => (
             <button

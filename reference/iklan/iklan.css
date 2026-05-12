@@ -1,0 +1,150 @@
+/* ===== AD EVALUATION PAGE ===== */
+.ad-section {
+  padding: 20px 24px 48px;
+}
+.section-title {
+  font-family:
+    'Playfair Display',
+    serif;
+  font-size: 20px;
+  color: var(--brown);
+  margin-bottom: 4px;
+}
+.section-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* METRICS EXPLAINER */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.metric-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+.metric-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.metric-full {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brown);
+  margin-bottom: 6px;
+}
+.metric-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.metric-benchmark {
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+.bench-good {
+  background: #d4f1e4;
+  color: #1a6b4a;
+}
+.bench-warn {
+  background: #fdf3d8;
+  color: #b88a1a;
+}
+.bench-bad {
+  background: #fde8d8;
+  color: #b85c1a;
+}
+
+/* DECISION TREE */
+.decision-tree {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.dt-header {
+  background: #160c05;
+  padding: 14px 16px;
+  color: var(--gold);
+  font-family:
+    'Playfair Display',
+    serif;
+  font-size: 14px;
+}
+.dt-row {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(100, 60, 30, 0.06);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.dt-row:last-child {
+  border-bottom: none;
+}
+.dt-condition {
+  background: #f5efe6;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--warm);
+  flex-shrink: 0;
+  min-width: 100px;
+  text-align: center;
+  line-height: 1.4;
+}
+.dt-arrow {
+  font-size: 16px;
+  color: var(--muted);
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.dt-action {
+  flex: 1;
+}
+.dt-action-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.dt-action-desc {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* CHECKLIST IKLAN */
+.ad-checklist {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.ad-check-header {
+  padding: 14px 16px;
+  background: #f5efe6;
+  font-family:
+    'Playfair Display',
+    serif;
+  font-size: 14px;
+  color: var(--brown);
+  border-bottom: 1px solid var(--border);
+}
+

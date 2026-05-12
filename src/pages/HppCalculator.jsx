@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InfoBox } from "../components/ui/InfoBox.jsx";
 import { PageIntro } from "../components/ui/PageIntro.jsx";
 import { formatRpFull, formatDate } from "../utils/formatters.js";
@@ -27,12 +27,14 @@ export function HppCalculatorPage({ auth, calculators }) {
   const [result, setResult] = useState(null);
   const [history, setHistory] = useState([]);
 
-  // Load history once on mount
-  useState(() => {
+  // Load history when user changes
+  useEffect(() => {
     if (auth.user && calculators) {
       calculators.listHpp().then(setHistory);
+    } else {
+      setHistory([]);
     }
-  }, [auth.user]);
+  }, [auth.user, calculators]);
 
   function switchMode(m) {
     setMode(m);

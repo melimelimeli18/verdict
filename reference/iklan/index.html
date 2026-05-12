@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verdict — Iklan</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+      rel="stylesheet" />
+    <link rel="stylesheet" href="../global.css" />
+    <link rel="stylesheet" href="iklan.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <a href="../dashboard/index.html" class="logo">Verdict</a>
+        <nav class="nav-tabs">
+          <a class="nav-tab" href="../dashboard/index.html">Dashboard</a>
+          <a class="nav-tab active" href="../iklan/index.html">Iklan</a>
+          <a class="nav-tab" href="../keuangan/index.html">Keuangan</a>
+          <a class="nav-tab" href="../stock/index.html">Stok</a>
+          <a class="nav-tab" href="../panduan/index.html">Panduan</a>
+          <a class="nav-tab" href="../product/index.html">Produk</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="ad-section">
+        <div class="section-title">Panduan Evaluasi Iklan</div>
+        <div class="section-desc">
+          Sebelum bakar uang di iklan, kamu harus bisa baca angkanya. Ini metrik
+          yang paling penting — dan kapan harus matiin iklan yang ga worth it.
+        </div>
+
+        <div class="calc-box">
+          <div class="calc-title">🧮 Kalkulator ROAS & Iklan</div>
+          <div class="calc-row">
+            <div class="calc-label">Budget iklan (Rp)</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="c-budget"
+              placeholder="50000"
+              oninput="calcROAS()" />
+          </div>
+          <div class="calc-row">
+            <div class="calc-label">Total penjualan (Rp)</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="c-revenue"
+              placeholder="200000"
+              oninput="calcROAS()" />
+          </div>
+          <div class="calc-row">
+            <div class="calc-label">Harga produk (Rp)</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="c-price"
+              placeholder="85000"
+              oninput="calcROAS()" />
+          </div>
+          <div class="calc-row">
+            <div class="calc-label">Modal produk (Rp)</div>
+            <input
+              class="calc-input"
+              type="number"
+              id="c-cogs"
+              placeholder="40000"
+              oninput="calcROAS()" />
+          </div>
+          <div class="calc-result" id="calc-result" style="display: none">
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+              <div>
+                <div class="calc-result-label">ROAS</div>
+                <div class="calc-result-value" id="c-roas">—</div>
+              </div>
+              <div>
+                <div class="calc-result-label">Profit Bersih</div>
+                <div class="calc-result-value" id="c-profit">—</div>
+              </div>
+            </div>
+            <div class="calc-result-verdict" id="c-verdict"></div>
+          </div>
+        </div>
+
+        <div
+          style="
+            font-family: &quot;Playfair Display&quot;, serif;
+            font-size: 15px;
+            color: var(--brown);
+            margin-bottom: 12px;
+          ">
+          📊 Metrik yang Harus Kamu Pahami
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-name">ROAS</div>
+            <div class="metric-full">Return on Ad Spend</div>
+            <div class="metric-desc">
+              Berapa rupiah yang masuk untuk setiap 1 rupiah yang kamu keluarkan
+              untuk iklan.
+            </div>
+            <div class="metric-benchmark bench-good">✓ Bagus: ≥ 3x</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-name">CTR</div>
+            <div class="metric-full">Click-Through Rate</div>
+            <div class="metric-desc">
+              Persentase orang yang klik iklan kamu dari total yang lihat.
+              Rendah = masalah foto/judul.
+            </div>
+            <div class="metric-benchmark bench-warn">Target: ≥ 2%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-name">CVR</div>
+            <div class="metric-full">Conversion Rate</div>
+            <div class="metric-desc">
+              % yang beli setelah klik. Rendah = masalah harga, deskripsi, atau
+              ulasan.
+            </div>
+            <div class="metric-benchmark bench-good">Target: ≥ 3%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-name">CPC</div>
+            <div class="metric-full">Cost per Click</div>
+            <div class="metric-desc">
+              Biaya per klik iklan. Makin rendah makin efisien — tapi kualitas
+              klik juga penting.
+            </div>
+            <div class="metric-benchmark bench-warn">Ideal: Rp 200–500</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-name">CPO</div>
+            <div class="metric-full">Cost per Order</div>
+            <div class="metric-desc">
+              Biaya iklan yang dikeluarkan untuk mendapat 1 order. Harus jauh di
+              bawah profit per order.
+            </div>
+            <div class="metric-benchmark bench-bad">Bahaya: > 30% profit</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-name">Impression</div>
+            <div class="metric-full">Tayangan Iklan</div>
+            <div class="metric-desc">
+              Berapa kali iklan kamu muncul. Rendah = budget terlalu kecil atau
+              keyword terlalu sempit.
+            </div>
+            <div class="metric-benchmark bench-warn">Monitor per hari</div>
+          </div>
+        </div>
+
+        <div class="decision-tree">
+          <div class="dt-header">
+            🔍 Apa yang harus dilakukan dengan iklanmu?
+          </div>
+          <div class="dt-row">
+            <div class="dt-condition">ROAS &lt; 1.5x</div>
+            <div class="dt-arrow">→</div>
+            <div class="dt-action">
+              <div class="dt-action-title">Matiin dulu, evaluasi dari awal</div>
+              <div class="dt-action-desc">
+                ROAS di bawah 1.5 artinya kamu rugi. Cek dulu: foto produk,
+                harga, dan ulasan. Perbaiki itu sebelum iklan lagi.
+              </div>
+            </div>
+          </div>
+          <div class="dt-row">
+            <div class="dt-condition">ROAS 1.5–2.9x</div>
+            <div class="dt-arrow">→</div>
+            <div class="dt-action">
+              <div class="dt-action-title">Jalan tapi perlu optimasi</div>
+              <div class="dt-action-desc">
+                Masih bisa lanjut kalau margin produk tinggi. Tapi wajib coba
+                ubah targeting, turunkan keyword yang mahal, dan test foto baru.
+              </div>
+            </div>
+          </div>
+          <div class="dt-row">
+            <div class="dt-condition">ROAS ≥ 3x</div>
+            <div class="dt-arrow">→</div>
+            <div class="dt-action">
+              <div class="dt-action-title">Scale up budget-nya!</div>
+              <div class="dt-action-desc">
+                Iklan kamu profitable. Naikkan budget 20–30% per minggu secara
+                bertahap. Jangan langsung 2x karena bisa ubah performa
+                algoritma.
+              </div>
+            </div>
+          </div>
+          <div class="dt-row">
+            <div class="dt-condition">CTR rendah, Impresi tinggi</div>
+            <div class="dt-arrow">→</div>
+            <div class="dt-action">
+              <div class="dt-action-title">Masalah di foto & judul</div>
+              <div class="dt-action-desc">
+                Orang lihat tapi ga klik = thumbnail kamu kalah menarik. Ganti
+                foto utama dan uji judul baru dengan keyword berbeda.
+              </div>
+            </div>
+          </div>
+          <div class="dt-row">
+            <div class="dt-condition">CTR bagus, CVR rendah</div>
+            <div class="dt-arrow">→</div>
+            <div class="dt-action">
+              <div class="dt-action-title">Masalah di halaman produk</div>
+              <div class="dt-action-desc">
+                Orang klik tapi ga beli = harga terlalu mahal, deskripsi kurang
+                meyakinkan, atau ulasan kurang. Perbaiki tiga hal itu dulu.
+              </div>
+            </div>
+          </div>
+          <div class="dt-row">
+            <div class="dt-condition">Impresi sangat rendah</div>
+            <div class="dt-arrow">→</div>
+            <div class="dt-action">
+              <div class="dt-action-title">Budget atau keyword bermasalah</div>
+              <div class="dt-action-desc">
+                Naikkan bid iklan, tambah variasi keyword (long-tail keyword
+                lebih murah), atau perluas target audience-nya.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ad-checklist">
+          <div class="ad-check-header">✅ Checklist Sebelum Jalankan Iklan</div>
+          <div class="check-item" onclick="toggle(this)">
+            <div class="checkbox"><span class="check-icon">✓</span></div>
+            <div class="check-body">
+              <div class="check-title">
+                Toko sudah punya minimal 10 ulasan bintang 4–5
+              </div>
+              <div class="check-desc">
+                Iklan yang bawa traffic ke toko tanpa ulasan = buang uang. Orang
+                akan klik, tapi langsung keluar.
+              </div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)">
+            <div class="checkbox"><span class="check-icon">✓</span></div>
+            <div class="check-body">
+              <div class="check-title">
+                Foto produk sudah dioptimasi & CTR organik bagus
+              </div>
+              <div class="check-desc">
+                Kalau foto organik aja sudah dapat CTR rendah, iklan cuma bikin
+                lebih banyak orang lihat tapi tetap ga klik.
+              </div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)">
+            <div class="checkbox"><span class="check-icon">✓</span></div>
+            <div class="check-body">
+              <div class="check-title">
+                Hitung break-even ROAS sebelum mulai
+              </div>
+              <div class="check-desc">
+                Break-even ROAS = Harga Jual ÷ (Harga Jual - Modal - Fee
+                Platform). Ini ROAS minimum agar kamu tidak rugi.
+              </div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)">
+            <div class="checkbox"><span class="check-icon">✓</span></div>
+            <div class="check-body">
+              <div class="check-title">
+                Set budget harian yang bisa kamu relakan jika merugi
+              </div>
+              <div class="check-desc">
+                Anggap biaya iklan awal = biaya belajar. Mulai dari Rp
+                20–50rb/hari. Jangan langsung besar sebelum kamu paham angkanya.
+              </div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggle(this)">
+            <div class="checkbox"><span class="check-icon">✓</span></div>
+            <div class="check-body">
+              <div class="check-title">
+                Monitor iklan setiap hari selama 7 hari pertama
+              </div>
+              <div class="check-desc">
+                7 hari pertama adalah periode test. Jangan evaluasi terlalu
+                cepat (&lt; 3 hari) karena data belum cukup, tapi jangan
+                dibiarkan begitu saja.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="highlight-box">
+          <div class="hb-title">💡 Rahasia yang jarang diajarkan</div>
+          <div class="hb-body">
+            Seller yang berhasil dengan iklan biasanya bukan yang paling besar
+            budgetnya — tapi yang paling rajin evaluasi setiap hari dan berani
+            matiin iklan yang ga perform. Iklan bukan mesin pencetak uang
+            otomatis. Dia alat amplifikasi — kalau produk dan tokonya bagus,
+            iklan akan makin bagus hasilnya. Kalau tokonya belum siap, iklan
+            cuma mempercepat habisnya uang kamu.
+          </div>
+          <div class="hb-pills">
+            <span class="hb-pill">Mulai kecil</span>
+            <span class="hb-pill">Evaluasi tiap hari</span>
+            <span class="hb-pill">Scale yang winner</span>
+            <span class="hb-pill">Matiin yang rugi</span>
+          </div>
+        </div>
+
+        <!-- REKAP SARAN IKLAN -->
+        <div style="margin-top: 4px">
+          <div
+            style="
+              background: linear-gradient(135deg, var(--dark), var(--brown));
+              border-radius: 14px;
+              padding: 18px 16px;
+            ">
+            <div
+              style="
+                font-family: &quot;Playfair Display&quot;, serif;
+                font-size: 15px;
+                color: var(--gold);
+                margin-bottom: 6px;
+              ">
+              Rekap & Saran Iklan
+            </div>
+            <div
+              style="
+                font-size: 12px;
+                color: rgba(245, 239, 230, 0.7);
+                line-height: 1.6;
+                margin-bottom: 14px;
+              ">
+              Isi kalkulator ROAS di atas dulu, lalu klik tombol ini untuk dapat
+              saran spesifik berdasarkan angkanya.
+            </div>
+            <button
+              onclick="generateRekapIklan()"
+              style="
+                width: 100%;
+                padding: 13px;
+                background: var(--accent);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                font-size: 13px;
+                font-weight: 700;
+                font-family: &quot;DM Sans&quot;, sans-serif;
+                cursor: pointer;
+                letter-spacing: 0.2px;
+              ">
+              Lihat Saran Iklan
+            </button>
+          </div>
+          <div id="rekap-iklan-result" style="display: none; margin-top: 12px">
+            <div
+              style="
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 14px;
+                overflow: hidden;
+              ">
+              <div
+                style="
+                  background: var(--cream);
+                  padding: 12px 16px;
+                  border-bottom: 1px solid var(--border);
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                ">
+                <div
+                  style="
+                    font-family: &quot;Playfair Display&quot;, serif;
+                    font-size: 14px;
+                    color: var(--brown);
+                  ">
+                  Hasil Analisis Iklan
+                </div>
+              </div>
+              <div
+                id="rekap-iklan-content"
+                style="
+                  padding: 16px;
+                  font-size: 13px;
+                  color: var(--text);
+                  line-height: 1.8;
+                "></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+    <!-- CREDIT FOOTER -->
+
+    <div
+      style="
+        background: #160c05;
+        border-top: 1px solid rgba(232, 185, 122, 0.12);
+        padding: 20px 24px;
+        text-align: center;
+      ">
+      <div
+        style="
+          font-family: &quot;Playfair Display&quot;, serif;
+          font-style: italic;
+          color: var(--gold);
+          font-size: 15px;
+          margin-bottom: 5px;
+          letter-spacing: 0.2px;
+        ">
+        made by Verdict × Claude
+      </div>
+      <div
+        style="
+          font-size: 11px;
+          color: rgba(232, 185, 122, 0.45);
+          font-weight: 400;
+          letter-spacing: 0.3px;
+        ">
+        produk dari Verdict 🤍
+      </div>
+      <div
+        style="
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          margin-top: 10px;
+          background: rgba(232, 185, 122, 0.08);
+          border: 1px solid rgba(232, 185, 122, 0.18);
+          border-radius: 20px;
+          padding: 6px 14px;
+        ">
+        <span style="font-size: 13px">📸</span>
+        <span
+          style="
+            font-size: 11px;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+          "
+          >@verdict</span
+        >
+      </div>
+    </div>
+
+    <script src="../global.js"></script>
+    <script src="iklan.js"></script>
+  </body>
+</html>
+
