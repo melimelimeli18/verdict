@@ -1,56 +1,166 @@
 import { useState, useEffect } from "react";
-import { InfoBox } from "../components/ui/InfoBox.jsx";
-import { formatRpFull, formatDate } from "../utils/formatters.js";
+import { formatRpFull } from "../utils/formatters.js";
 import {
   AD_METRICS,
   DECISION_TREE,
   AD_CHECKLIST_ITEMS,
 } from "../data/iklan.js";
 
-const INITIAL_ROAS_FORM = {
-  productName: "",
-  adSpend: "",
-  revenue: "",
-  orderCount: "",
-};
-
 export function IklanPage({ auth, calculators }) {
-  // ROAS Calculator State
-  const [roasForm, setRoasForm] = useState(INITIAL_ROAS_FORM);
-  const [roasResult, setRoasResult] = useState(null);
-  const [roasHistory, setRoasHistory] = useState([]);
+  // ROAS Calculator State (matching reference: budget, revenue, price, cogs)
+  const [budget, setBudget] = useState("");
+  const [revenue, setRevenue] = useState("");
+  const [price, setPrice] = useState("");
+  const [cogs, setCogs] = useState("");
+  const [roas, setRoas] = useState(null);
+  const [profit, setProfit] = useState(null);
+  const [verdict, setVerdict] = useState(null);
 
-  // Ad Checklist State (client-side only — matches view.html prototype)
+  // Ad Checklist State
   const [checkedItems, setCheckedItems] = useState({});
 
+  // Rekap state
+  const [rekapResult, setRekapResult] = useState(null);
+  const [rekapVisible, setRekapVisible] = useState(false);
+
+  // Live recalculate ROAS whenever any input changes
   useEffect(() => {
-    if (auth.user && calculators) {
-      calculators.listRoas().then(setRoasHistory);
-    } else {
-      setRoasHistory([]);
+    calcROAS();
+  }, [budget, revenue, price, cogs]);
+
+  function calcROAS() {
+    const b = Number(budget) || 0;
+    const r = Number(revenue) || 0;
+    const p = Number(price) || 0;
+    const c = Number(cogs) || 0;
+
+    if (!b || !r) {
+      setRoas(null);
+      setProfit(null);
+      setVerdict(null);
+      return;
     }
-  }, [auth.user, calculators]);
 
-  function handleRoasChange(e) {
-    setRoasForm({ ...roasForm, [e.target.name]: e.target.value });
+    const roasVal = r / b;
+    const units = p > 0 ? Math.round(r / p) : 0;
+    const platformFee = r * 0.05;
+    const profitVal = r - c * units - b - platformFee;
+
+    setRoas(roasVal);
+    setProfit(Math.round(profitVal));
+
+    if (roasVal >= 3) {
+      setVerdict({
+        text: "✅ ROAS bagus! Pertimbangkan untuk scale up budget iklan.",
+        cls: "verdict-good",
+      });
+    } else if (roasVal >= 1.5) {
+      setVerdict({
+        text: "⚠️ ROAS masih perlu dioptimasi. Cek foto, harga, dan targeting.",
+        cls: "verdict-warn",
+      });
+    } else {
+      setVerdict({
+        text: "❌ ROAS terlalu rendah — matiin dulu, evaluasi dari foto dan produk.",
+        cls: "verdict-bad",
+      });
+    }
   }
 
-  function calculateRoas() {
-    const adSpend = Number(roasForm.adSpend) || 0;
-    const revenue = Number(roasForm.revenue) || 0;
-    const orderCount = Number(roasForm.orderCount) || 0;
-    const roas = adSpend > 0 ? Number((revenue / adSpend).toFixed(1)) : 0;
-    const cpa = orderCount > 0 ? Math.round(adSpend / orderCount) : 0;
-    const profit = revenue - adSpend;
-    const margin = revenue > 0 ? Math.round((profit / revenue) * 100) : 0;
-    setRoasResult({ roas, cpa, profit, margin });
-  }
+  function generateRekapIklan() {
+    const b = Number(budget) || 0;
+    const r = Number(revenue) || 0;
+    const p = Number(price) || 0;
+    const c = Number(cogs) || 0;
 
-  async function handleSaveRoas() {
-    if (!auth.user || !calculators || !roasResult) return;
-    await calculators.saveRoas({ inputs: roasForm, results: roasResult });
-    const updated = await calculators.listRoas();
-    setRoasHistory(updated);
+    if (!b || !r) {
+      alert(
+        "Isi dulu kalkulator ROAS di atas — minimal budget iklan dan total penjualan!",
+      );
+      return;
+    }
+
+    const roasVal = r / b;
+    const units = p > 0 ? Math.round(r / p) : 0;
+    const platformFee = r * 0.05;
+    const profitVal = r - c * units - b - platformFee;
+    const marginVal = r > 0 ? Math.round((profitVal / r) * 100) : 0;
+    const cpoVal = units > 0 ? Math.round(b / units) : 0;
+
+    // Status ROAS
+    let statusROAS = "",
+      warnaROAS = "";
+    if (roasVal >= 4) {
+      statusROAS = "Sangat Bagus";
+      warnaROAS = "#1a6b4a";
+    } else if (roasVal >= 3) {
+      statusROAS = "Bagus";
+      warnaROAS = "#1a6b4a";
+    } else if (roasVal >= 1.5) {
+      statusROAS = "Perlu Optimasi";
+      warnaROAS = "#b88a1a";
+    } else {
+      statusROAS = "Merugi";
+      warnaROAS = "#b85c1a";
+    }
+
+    // Saran berdasarkan kondisi
+    const saran = [];
+    if (roasVal < 1.5) {
+      saran.push({
+        icon: "🔴",
+        teks: "<b>Matiin iklan dulu.</b> ROAS di bawah 1.5x artinya kamu rugi untuk setiap rupiah yang dikeluarkan. Perbaiki dulu foto produk, harga, dan ulasan sebelum iklan lagi.",
+      });
+      saran.push({
+        icon: "🔍",
+        teks: "<b>Audit halaman produk.</b> Kalau orang klik tapi tidak beli — masalahnya di harga, deskripsi, atau kurangnya ulasan. Fokus perbaiki tiga hal itu dulu.",
+      });
+    } else if (roasVal < 3) {
+      saran.push({
+        icon: "🟡",
+        teks: `<b>Iklan jalan tapi perlu dioptimasi.</b> ROAS ${roasVal.toFixed(1)}x masih bisa ditingkatkan. Coba ganti foto thumbnail dan test keyword yang lebih spesifik (long-tail).`,
+      });
+      saran.push({
+        icon: "💡",
+        teks: "<b>Cek CTR iklan.</b> Kalau impresi tinggi tapi klik sedikit, masalahnya di foto atau judul. Kalau CTR bagus tapi konversi rendah, masalahnya di halaman produk.",
+      });
+    } else {
+      saran.push({
+        icon: "✅",
+        teks: `<b>Iklan kamu profitable!</b> ROAS ${roasVal.toFixed(1)}x artinya setiap Rp 1 yang kamu keluarkan menghasilkan Rp ${roasVal.toFixed(1)}. Naikkan budget 20–30% per minggu secara bertahap.`,
+      });
+      saran.push({
+        icon: "🚀",
+        teks: '<b>Scale bertahap, bukan langsung 2x.</b> Naikkan budget perlahan supaya algoritma iklan tidak perlu "belajar ulang" dan performa tetap stabil.',
+      });
+    }
+
+    if (cpoVal > 0 && c > 0) {
+      const profitPerOrder = p - c - p * 0.05;
+      if (cpoVal > profitPerOrder * 0.3) {
+        saran.push({
+          icon: "⚠️",
+          teks: `<b>CPO terlalu tinggi.</b> Biaya per order <b>${formatRpFull(cpoVal)}</b> sudah lebih dari 30% profit per item. Pertimbangkan turunkan bid atau perluas target audience.`,
+        });
+      }
+    }
+
+    if (marginVal < 10 && r > 0) {
+      saran.push({
+        icon: "🚨",
+        teks: `<b>Margin produk tipis (${marginVal}%).</b> Bahkan dengan iklan yang bagus, profit kamu akan sangat kecil. Pertimbangkan naikkan harga jual atau cari supplier lebih murah.`,
+      });
+    }
+
+    setRekapResult({
+      statusROAS,
+      warnaROAS,
+      roasVal,
+      profitVal,
+      cpoVal,
+      saran,
+    });
+    setRekapVisible(true);
   }
 
   function toggleCheckItem(idx) {
@@ -61,188 +171,345 @@ export function IklanPage({ auth, calculators }) {
   const checklistTotal = AD_CHECKLIST_ITEMS.length;
 
   return (
-    <section className="ad-section page">
+    <div className="ad-section" style={{ padding: "20px 24px 48px" }}>
       <div className="section-title">Panduan Evaluasi Iklan</div>
       <div className="section-desc">
         Sebelum bakar uang di iklan, kamu harus bisa baca angkanya. Ini metrik
         yang paling penting — dan kapan harus matiin iklan yang ga worth it.
       </div>
 
-      <div className="iklan-block">
-        <h2 className="iklan-block-title">📊 Metrik Iklan yang Perlu Kamu Tahu</h2>
-        <div className="ad-metrics-grid">
-          {AD_METRICS.map((m) => (
-            <div className="ad-metric-card" key={m.key}>
-              <div className="ad-metric-header">
-                <span className="ad-metric-key">{m.key}</span>
-                <span className={`ad-metric-bench ${m.benchClass}`}>
-                  {m.benchmark}
-                </span>
-              </div>
-              <p className="ad-metric-name">{m.full}</p>
-              <p className="ad-metric-desc">{m.desc}</p>
-            </div>
-          ))}
+      {/* ===== ROAS CALCULATOR ===== */}
+      <div className="calc-box">
+        <div className="calc-title">🧮 Kalkulator ROAS & Iklan</div>
+        <div className="calc-row">
+          <div className="calc-label">Budget iklan (Rp)</div>
+          <input
+            className="calc-input"
+            type="number"
+            placeholder="50000"
+            value={budget}
+            onInput={(e) => setBudget(e.target.value)}
+          />
         </div>
-      </div>
-
-      <div className="iklan-block">
-        <h2 className="iklan-block-title">🧭 Panduan Keputusan Iklan</h2>
-        <p className="iklan-block-lead">
-          Gunakan panduan ini setelah kamu punya data iklan minimal 3-7 hari.
-        </p>
-        {DECISION_TREE.map((d, i) => (
-          <div className="ad-decision-card" key={i}>
-            <div className="ad-decision-condition">{d.condition}</div>
-            <div className="ad-decision-title">{d.title}</div>
-            <p className="ad-decision-desc">{d.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      <div className="iklan-block">
-        <h2 className="iklan-block-title">🧮 Kalkulator ROAS</h2>
-        <p className="iklan-block-lead">
-          Hitung Return on Ad Spend dan Cost per Acquisition. Tahu angka pasti
-          sebelum scale budget iklan.
-        </p>
-
-        <div className="calc-form">
+        <div className="calc-row">
+          <div className="calc-label">Total penjualan (Rp)</div>
           <input
-            name="productName"
-            placeholder="Nama Produk / Kampanye"
-            value={roasForm.productName}
-            onChange={handleRoasChange}
-          />
-          <input
-            name="adSpend"
-            placeholder="Total Biaya Iklan (Rp)"
+            className="calc-input"
             type="number"
-            value={roasForm.adSpend}
-            onChange={handleRoasChange}
+            placeholder="200000"
+            value={revenue}
+            onInput={(e) => setRevenue(e.target.value)}
           />
+        </div>
+        <div className="calc-row">
+          <div className="calc-label">Harga produk (Rp)</div>
           <input
-            name="revenue"
-            placeholder="Total Pendapatan dari Iklan (Rp)"
+            className="calc-input"
             type="number"
-            value={roasForm.revenue}
-            onChange={handleRoasChange}
+            placeholder="85000"
+            value={price}
+            onInput={(e) => setPrice(e.target.value)}
           />
+        </div>
+        <div className="calc-row">
+          <div className="calc-label">Modal produk (Rp)</div>
           <input
-            name="orderCount"
-            placeholder="Jumlah Order"
+            className="calc-input"
             type="number"
-            value={roasForm.orderCount}
-            onChange={handleRoasChange}
+            placeholder="40000"
+            value={cogs}
+            onInput={(e) => setCogs(e.target.value)}
           />
-          <button className="btn-primary" onClick={calculateRoas} type="button">
-            Hitung
-          </button>
         </div>
 
-        {roasResult && (
+        {roas !== null && (
           <div className="calc-result">
-            <h3>Hasil</h3>
-            <div className="stats-row">
-              <div className="stat-card">
-                <span
-                  className={`stat-number ${roasResult.roas >= 3 ? "positive" : "negative"}`}>
-                  {roasResult.roas}x
-                </span>
-                <span className="stat-label">ROAS</span>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 10,
+              }}>
+              <div>
+                <div className="calc-result-label">ROAS</div>
+                <div className="calc-result-value">{roas.toFixed(1)}x</div>
               </div>
-              <div className="stat-card">
-                <span className="stat-number">
-                  {formatRpFull(roasResult.cpa)}
-                </span>
-                <span className="stat-label">CPA (Biaya per Order)</span>
-              </div>
-              <div className="stat-card">
-                <span
-                  className={`stat-number ${roasResult.profit >= 0 ? "positive" : "negative"}`}>
-                  {formatRpFull(roasResult.profit)}
-                </span>
-                <span className="stat-label">Profit</span>
-              </div>
-              <div className="stat-card">
-                <span className="stat-number">{roasResult.margin}%</span>
-                <span className="stat-label">Margin</span>
+              <div>
+                <div className="calc-result-label">Profit Bersih</div>
+                <div className="calc-result-value">{formatRpFull(profit)}</div>
               </div>
             </div>
-            {auth.user && (
-              <button
-                className="btn-primary"
-                onClick={handleSaveRoas}
-                style={{ marginTop: 16 }}
-                type="button">
-                Simpan ke Riwayat
-              </button>
+            {verdict && (
+              <div className={`calc-result-verdict ${verdict.cls}`}>
+                {verdict.text}
+              </div>
             )}
           </div>
         )}
-
-        {roasHistory.length > 0 && (
-          <div style={{ marginTop: 24 }}>
-            <h3>Riwayat Perhitungan</h3>
-            {roasHistory.map((item) => (
-              <div className="tx-card" key={item.id}>
-                <div className="tx-card-left">
-                  <span className="tx-category">
-                    {item.inputs?.productName || "ROAS Calc"}
-                  </span>
-                </div>
-                <div className="tx-card-right">
-                  <span className="tx-date">{formatDate(item.created_at)}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
-      <div className="iklan-block">
-        <h2 className="iklan-block-title">✅ Checklist Sebelum Iklan</h2>
-        <p className="iklan-block-lead">
-          Jangan buang duit iklan kalau toko & produk belum siap. Checklist ini
-          wajib dicek sebelum kamu mulai campaign.
-        </p>
-        <div className="checklist-progress-bar">
-          <div className="checklist-progress-label">
-            {checkedCount} / {checklistTotal} selesai
-          </div>
-          <div className="checklist-progress-track">
-            <div
-              className="checklist-progress-fill"
-              style={{
-                width: `${Math.round((checkedCount / checklistTotal) * 100)}%`,
-              }}
-            />
-          </div>
-        </div>
-        {AD_CHECKLIST_ITEMS.map((item, i) => (
-          <div
-            className={`checklist-item ${checkedItems[i] ? "done" : ""}`}
-            key={i}
-            onClick={() => toggleCheckItem(i)}>
-            <div className="checklist-item-check">
-              {checkedItems[i] ? "✓" : ""}
-            </div>
-            <div className="checklist-item-text">
-              <div className="checklist-item-title">{item.title}</div>
-              <p className="checklist-item-desc">{item.desc}</p>
+      {/* ===== METRICS GRID ===== */}
+      <div
+        style={{
+          fontFamily: '"Playfair Display", serif',
+          fontSize: 15,
+          color: "var(--brown)",
+          marginBottom: 12,
+        }}>
+        📊 Metrik yang Harus Kamu Pahami
+      </div>
+
+      <div className="metrics-grid">
+        {AD_METRICS.map((m) => (
+          <div className="metric-card" key={m.key}>
+            <div className="metric-name">{m.key}</div>
+            <div className="metric-full">{m.full}</div>
+            <div className="metric-desc">{m.desc}</div>
+            <div className={`metric-benchmark ${m.benchClass}`}>
+              {m.benchmark}
             </div>
           </div>
         ))}
       </div>
 
-      <InfoBox title="Kenapa ROAS penting?">
-        <p>
-          ROAS (Return on Ad Spend) menunjukkan apakah uang iklan kamu kembali
-          atau tidak. ROAS 3x artinya setiap Rp1 iklan menghasilkan Rp3
-          pendapatan. Target minimal umumnya 3-5x untuk bisnis fisik. Sebelum
-          scale, pastikan ROAS kamu sudah di atas break-even point.
-        </p>
-      </InfoBox>
-    </section>
+      {/* ===== DECISION TREE ===== */}
+      <div className="decision-tree">
+        <div className="dt-header">
+          🔍 Apa yang harus dilakukan dengan iklanmu?
+        </div>
+        {DECISION_TREE.map((d, i) => (
+          <div className="dt-row" key={i}>
+            <div className="dt-condition">{d.condition}</div>
+            <div className="dt-arrow">→</div>
+            <div className="dt-action">
+              <div className="dt-action-title">{d.title}</div>
+              <div className="dt-action-desc">{d.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ===== AD CHECKLIST ===== */}
+      <div className="ad-checklist">
+        <div className="ad-check-header">
+          ✅ Checklist Sebelum Jalankan Iklan
+        </div>
+        {AD_CHECKLIST_ITEMS.map((item, i) => (
+          <div
+            className={`check-item ${checkedItems[i] ? "done" : ""}`}
+            key={i}
+            onClick={() => toggleCheckItem(i)}
+            style={{ cursor: "pointer" }}>
+            <div className="checkbox">
+              <span className="check-icon">✓</span>
+            </div>
+            <div className="check-body">
+              <div className="check-title">{item.title}</div>
+              <div className="check-desc">{item.desc}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ===== HIGHLIGHT BOX ===== */}
+      <div className="highlight-box">
+        <div className="hb-title">💡 Rahasia yang jarang diajarkan</div>
+        <div className="hb-body">
+          Seller yang berhasil dengan iklan biasanya bukan yang paling besar
+          budgetnya — tapi yang paling rajin evaluasi setiap hari dan berani
+          matiin iklan yang ga perform. Iklan bukan mesin pencetak uang
+          otomatis. Dia alat amplifikasi — kalau produk dan tokonya bagus, iklan
+          akan makin bagus hasilnya. Kalau tokonya belum siap, iklan cuma
+          mempercepat habisnya uang kamu.
+        </div>
+        <div className="hb-pills">
+          <span className="hb-pill">Mulai kecil</span>
+          <span className="hb-pill">Evaluasi tiap hari</span>
+          <span className="hb-pill">Scale yang winner</span>
+          <span className="hb-pill">Matiin yang rugi</span>
+        </div>
+      </div>
+
+      {/* ===== REKAP SARAN IKLAN ===== */}
+      <div style={{ marginTop: 4 }}>
+        <div
+          style={{
+            background: "linear-gradient(135deg, var(--dark), var(--brown))",
+            borderRadius: 14,
+            padding: "18px 16px",
+          }}>
+          <div
+            style={{
+              fontFamily: '"Playfair Display", serif',
+              fontSize: 15,
+              color: "var(--gold)",
+              marginBottom: 6,
+            }}>
+            Rekap & Saran Iklan
+          </div>
+          <div
+            style={{
+              fontSize: 12,
+              color: "rgba(245, 239, 230, 0.7)",
+              lineHeight: 1.6,
+              marginBottom: 14,
+            }}>
+            Isi kalkulator ROAS di atas dulu, lalu klik tombol ini untuk dapat
+            saran spesifik berdasarkan angkanya.
+          </div>
+          <button
+            onClick={generateRekapIklan}
+            style={{
+              width: "100%",
+              padding: 13,
+              background: "var(--accent)",
+              color: "white",
+              border: "none",
+              borderRadius: 10,
+              fontSize: 13,
+              fontWeight: 700,
+              fontFamily: '"DM Sans", sans-serif',
+              cursor: "pointer",
+              letterSpacing: "0.2px",
+            }}>
+            Lihat Saran Iklan
+          </button>
+        </div>
+
+        {rekapVisible && rekapResult && (
+          <div style={{ marginTop: 12 }}>
+            <div
+              style={{
+                background: "white",
+                border: "1px solid var(--border)",
+                borderRadius: 14,
+                overflow: "hidden",
+              }}>
+              <div
+                style={{
+                  background: "var(--cream)",
+                  padding: "12px 16px",
+                  borderBottom: "1px solid var(--border)",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}>
+                <div
+                  style={{
+                    fontFamily: '"Playfair Display", serif',
+                    fontSize: 14,
+                    color: "var(--brown)",
+                  }}>
+                  Hasil Analisis Iklan
+                </div>
+              </div>
+              <div
+                style={{
+                  padding: 16,
+                  fontSize: 13,
+                  color: "var(--text)",
+                  lineHeight: 1.8,
+                }}>
+                {/* Status ROAS */}
+                <div
+                  style={{
+                    background: "var(--cream)",
+                    borderRadius: 10,
+                    padding: "12px 14px",
+                    marginBottom: 14,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}>
+                  <div>
+                    <div
+                      style={{
+                        fontSize: 10,
+                        color: "var(--muted)",
+                        fontWeight: 600,
+                        letterSpacing: "0.3px",
+                        marginBottom: 3,
+                      }}>
+                      STATUS IKLAN
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: '"Playfair Display", serif',
+                        fontSize: 18,
+                        fontWeight: 700,
+                        color: rekapResult.warnaROAS,
+                      }}>
+                      {rekapResult.statusROAS}
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <div
+                      style={{
+                        fontSize: 10,
+                        color: "var(--muted)",
+                        marginBottom: 3,
+                      }}>
+                      ROAS · Profit · CPO
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 700,
+                        color: "var(--text)",
+                      }}>
+                      {rekapResult.roasVal.toFixed(1)}x ·{" "}
+                      {formatRpFull(rekapResult.profitVal)} ·{" "}
+                      {rekapResult.cpoVal > 0
+                        ? formatRpFull(rekapResult.cpoVal)
+                        : "—"}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Saran */}
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: "var(--accent)",
+                    letterSpacing: "0.5px",
+                    marginBottom: 8,
+                  }}>
+                  SARAN YANG HARUS DILAKUKAN
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                  }}>
+                  {rekapResult.saran.map((s, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        display: "flex",
+                        gap: 10,
+                        alignItems: "flex-start",
+                      }}>
+                      <span style={{ fontSize: 16, flexShrink: 0 }}>
+                        {s.icon}
+                      </span>
+                      <div
+                        style={{
+                          fontSize: "12.5px",
+                          lineHeight: 1.7,
+                          color: "var(--text)",
+                        }}
+                        dangerouslySetInnerHTML={{ __html: s.teks }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
